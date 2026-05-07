@@ -9,9 +9,12 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
+                "-I/opt/homebrew/include",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-L/opt/homebrew/lib",
+                "-lraylib"
             ],
             "options": {
                 "cwd": "${fileDirname}"
