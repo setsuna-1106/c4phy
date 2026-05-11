@@ -16,14 +16,18 @@ static int  flash_timer = 0;
 static bool key_was_down = false;
 
 static Vector2 tracker[TRACKER_LINES];
+static Vector2 trackerf[TRACKER_LINES];
 static int    tr_head  = 0;
 static int    tr_count = 0;
 
 static double v_x, v_y;
+static float v_xf, v_yf;
 static Vector2 rpos, pos, center;
+static Vector2 rposf, posf, centerf;
 
 static void tr_push(Vector2 p) {
     tracker[tr_head] = p;
+    trackerf[tr_head] = p;
     tr_head = (tr_head + 1) % TRACKER_LINES;
     if (tr_count < TRACKER_LINES) tr_count++;
 }
@@ -32,6 +36,10 @@ static Vector2 tr_get(int index) {
     int oldest = (tr_head - tr_count + TRACKER_LINES) % TRACKER_LINES;
     return tracker[(oldest + index) % TRACKER_LINES];
 }
+static Vector2 tr_getf(int index) {
+    int oldest = (tr_head - tr_count + TRACKER_LINES) % TRACKER_LINES;
+    return trackerf[(oldest + index) % TRACKER_LINES];
+}
 
 static void DrawLight(void) {
     for (int i = 0; i < tr_count; i++) {
@@ -39,6 +47,12 @@ static void DrawLight(void) {
         color.a = (unsigned char)(255.0f * (i + 1) / tr_count);
         DrawRectangleV(tr_get(i), (Vector2){SIZE, SIZE}, color);
     }
+    for (int i = 0; i < tr_count; i++) {
+        Color color = RED;
+        color.a = (unsigned char)(255.0f * (i + 1) / tr_count);
+        DrawRectangleV(tr_getf(i), (Vector2){SIZE, SIZE}, color);
+    }
+    
 }
 
 static void init(void) {
@@ -50,8 +64,12 @@ static void init(void) {
 
     v_x  = V * cos(phi1);
     v_y  = V * sin(phi1);
+    v_xf  = V * cosf(phi1);
+    v_yf  = V * sinf(phi1);
     rpos = (Vector2){r0 * cos(phi2), r0 * sin(phi2)};
     pos  = (Vector2){rpos.x + center.x, rpos.y + center.y};
+    rposf = (Vector2){r0 * cosf(phi2), r0 * sinf(phi2)};
+    posf  = (Vector2){rposf.x + centerf.x, rposf.y + centerf.y};
 
     tr_head  = 0;
     tr_count = 0;
@@ -77,10 +95,29 @@ static void step(double dt) {
 
     pos = (Vector2){rpos.x + center.x, rpos.y + center.y};
     tr_push(pos);
+    rpos.x += v_x * dt;
+    rpos.y += v_y * dt;
+
+    float r3 = rposf.x * rposf.x + rposf.y * rposf.y;
+    if (r3 >= R * R) {
+        float len = sqrt(r2);
+        float nx  = rpos.x / len;
+        float ny  = rpos.y / len;
+        float dot = v_x * nx + v_y * ny;
+
+        v_x -= 2 * dot * nx;
+        v_y -= 2 * dot * ny;
+
+        rposf.x = nx * (R - SIZE);
+        rposf.y = ny * (R - SIZE);
+    }
+
+    posf = (Vector2){rposf.x + centerf.x, rposf.y + centerf.y};
 }
 
 int main(void) {
     center = (Vector2){WIDTH / 2.0f, HEIGHT / 2.0f};
+    centerf = (Vector2){WIDTH / 2.0f, HEIGHT / 2.0f};
 
     InitWindow(WIDTH, HEIGHT, "Reflection of light in a sphere");
     SetTargetFPS(FPS);
