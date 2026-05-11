@@ -12,6 +12,13 @@
 #define FPS    600
 #define TRACKER_LINES (FPS * 3)
 #define FLASH_FRAMES 20
+#define ANGLE_BUF_SIZE 512
+
+#define GRAPH_X  610
+#define GRAPH_Y1  40
+#define GRAPH_Y2 210
+#define GRAPH_W  180
+#define GRAPH_H  155
 
 
 
@@ -23,7 +30,16 @@ typedef struct DVector2 {
 static int  flash_timer = 0;
 static bool key_was_down = false;
 
-static int count=0;
+static int   collision_count = 0;
+static float angle_history[ANGLE_BUF_SIZE];    // |θd - θf| per collision
+static float drift_d_history[ANGLE_BUF_SIZE];  // |θd - θ₀d|
+static float drift_f_history[ANGLE_BUF_SIZE];  // |θf - θ₀f|
+static int   ah_head  = 0;
+static int   ah_count = 0;
+static bool  initial_angles_set = false;
+static double initial_angle_d = 0.0;
+static double initial_angle_f = 0.0;
+
 static DVector2 tracker[TRACKER_LINES];
 static Vector2 trackerf[TRACKER_LINES];
 static int    tr_head  = 0;
@@ -69,6 +85,71 @@ static void DrawLight(void) {
     }
 }
 
+// helper: draw one mini graph
+static void DrawMiniGraph(float y0, const char *title,
+                          float *buf0, Color c0, const char *l0,
+                          float *buf1, Color c1, const char *l1) {
+    DrawRectangle(GRAPH_X - 2, y0 - 2, GRAPH_W + 4, GRAPH_H + 4,
+                  (Color){0, 0, 0, 180});
+    DrawRectangleLines(GRAPH_X - 2, y0 - 2, GRAPH_W + 4, GRAPH_H + 4, DARKGRAY);
+
+    DrawText(title, GRAPH_X + 4, y0 + 2, 10, RAYWHITE);
+
+    if (ah_count < 2) return;
+
+    float px = GRAPH_X + 4, py = y0 + 16;
+    float pw = GRAPH_W - 8, ph = GRAPH_H - 38;
+
+    float ymax = 0.0001f;
+    for (int i = 0; i < ah_count; i++) {
+        if (buf0) { float v = buf0[i]; if (v > ymax) ymax = v; }
+        if (buf1) { float v = buf1[i]; if (v > ymax) ymax = v; }
+    }
+    ymax *= 1.1f;
+
+    for (int i = 0; i <= 3; i++) {
+        float y = py + ph * i / 3;
+        DrawLine(px, y, px + pw, y, (Color){50, 50, 50, 120});
+    }
+    DrawText(TextFormat("%.4f", ymax), px, py - 4, 8, RAYWHITE);
+    DrawText("0", px, py + ph - 8, 8, RAYWHITE);
+
+    for (int i = 1; i < ah_count; i++) {
+        if (buf0) {
+            float v0 = buf0[(ah_head - ah_count + i - 1 + ANGLE_BUF_SIZE) % ANGLE_BUF_SIZE];
+            float v1 = buf0[(ah_head - ah_count + i + ANGLE_BUF_SIZE) % ANGLE_BUF_SIZE];
+            float x0 = px + pw * (i - 1) / (ANGLE_BUF_SIZE - 1);
+            float x1 = px + pw * i / (ANGLE_BUF_SIZE - 1);
+            DrawLineEx((Vector2){x0, py + ph - ph * v0 / ymax},
+                       (Vector2){x1, py + ph - ph * v1 / ymax}, 1.5f, c0);
+        }
+        if (buf1) {
+            float v0 = buf1[(ah_head - ah_count + i - 1 + ANGLE_BUF_SIZE) % ANGLE_BUF_SIZE];
+            float v1 = buf1[(ah_head - ah_count + i + ANGLE_BUF_SIZE) % ANGLE_BUF_SIZE];
+            float x0 = px + pw * (i - 1) / (ANGLE_BUF_SIZE - 1);
+            float x1 = px + pw * i / (ANGLE_BUF_SIZE - 1);
+            DrawLineEx((Vector2){x0, py + ph - ph * v0 / ymax},
+                       (Vector2){x1, py + ph - ph * v1 / ymax}, 1.5f, c1);
+        }
+    }
+
+    // legend
+    int lx = px;
+    if (buf0) { DrawRectangle(lx, py + ph + 4, 6, 6, c0); lx += 10;
+                DrawText(l0, lx, py + ph + 2, 8, RAYWHITE); lx += 40; }
+    if (buf1) { DrawRectangle(lx, py + ph + 4, 6, 6, c1); lx += 10;
+                DrawText(l1, lx, py + ph + 2, 8, RAYWHITE); }
+}
+
+static void DrawAngleGraph(void) {
+    DrawMiniGraph(GRAPH_Y1, "|error|  |theta_d - theta_f|", angle_history, GREEN, "err", NULL, BLANK, NULL);
+    DrawMiniGraph(GRAPH_Y2, "drift  |theta - theta_0|",
+                  drift_d_history, BLUE,  "double",
+                  drift_f_history, RED,   "float");
+    DrawText(TextFormat("collisions: %d", collision_count),
+             GRAPH_X + 4, GRAPH_Y2 + GRAPH_H + 4, 10, RAYWHITE);
+}
+
 static void init(void) {
     SetRandomSeed((unsigned int)time(NULL));
 
@@ -90,6 +171,11 @@ static void init(void) {
 
     tr_head  = 0;
     tr_count = 0;
+
+    ah_head  = 0;
+    ah_count = 0;
+    collision_count = 0;
+    initial_angles_set = false;
 }
 
 static void step(double dt) {
@@ -102,6 +188,26 @@ static void step(double dt) {
         double nx  = rpos.x / len;
         double ny  = rpos.y / len;
         double dot = v_x * nx + v_y * ny;
+
+        double angle_d = acos(fabs(dot) / V) * RAD2DEG;
+        double dot_f   = (double)v_xf * nx + (double)v_yf * ny;
+        double angle_f = acos(fabs(dot_f) / V) * RAD2DEG;
+        float  err     = (float)fabs(angle_d - angle_f);
+
+        if (!initial_angles_set) {
+            initial_angle_d = angle_d;
+            initial_angle_f = angle_f;
+            initial_angles_set = true;
+        }
+        float drift_d = (float)fabs(angle_d - initial_angle_d);
+        float drift_f = (float)fabs(angle_f - initial_angle_f);
+
+        angle_history[ah_head]   = err;
+        drift_d_history[ah_head] = drift_d;
+        drift_f_history[ah_head] = drift_f;
+        ah_head = (ah_head + 1) % ANGLE_BUF_SIZE;
+        if (ah_count < ANGLE_BUF_SIZE) ah_count++;
+        collision_count++;
 
         v_x -= 2 * dot * nx;
         v_y -= 2 * dot * ny;
@@ -158,23 +264,33 @@ int main(void) {
 
         Color circle_color = (flash_timer > 0) ? RED : WHITE;
         if (flash_timer > 0) flash_timer--;
-        count++;
-        double diff_x = rpos.x - (double)rposf.x;
-        double diff_y = rpos.y - (double)rposf.y;
-        double diff;
-        
-        if (count==300){
-            diff = sqrt(diff_x * diff_x + diff_y * diff_y);
-            count=0;
-        }
 
         DrawCircleLinesV(DVector2ToVector2(center), R, circle_color);
         DrawCircleLinesV(DVector2ToVector2(center), R + 1, circle_color);
         DrawLight();
-        DrawText(TextFormat("double: blue  float: red  diff: %.9g px", diff), 12, 12, 18, RAYWHITE);
+        DrawAngleGraph();
+
+        static int  frame_cnt = 0;
+        static float pos_diff = 0.0f;
+        frame_cnt++;
+        if (frame_cnt >= FPS) {
+            double dx = rpos.x - (double)rposf.x;
+            double dy = rpos.y - (double)rposf.y;
+            pos_diff = (float)sqrt(dx * dx + dy * dy);
+            frame_cnt = 0;
+        }
+        DrawText(TextFormat("double: blue  float: red"), 12, 12, 18, RAYWHITE);
+        DrawText(TextFormat("pos diff: %.6f px", pos_diff), 12, 34, 18, RAYWHITE);
         EndDrawing();
     }
 
     CloseWindow();
     return 0;
 }
+
+/*
+在模拟中我们可以看到
+误差主要产生于反射角的计算，而不是欧拉距离
+主要原因应该是误差的阶不同
+同时由于角度是依赖商实现，更易反应微笑误差
+*/
