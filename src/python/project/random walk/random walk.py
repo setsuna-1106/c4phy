@@ -7,7 +7,7 @@ data = np.loadtxt(path,delimiter=",");
 x=data.T[0]
 y=data.T[1]
 
-y1=4*np.sqrt(x)
+y1=np.sqrt(x)
 
 fig, ax = plt.subplots(figsize=(18, 9))
 ax.scatter(x, y, s=1, color='black', zorder=1)

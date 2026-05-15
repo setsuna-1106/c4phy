@@ -11,7 +11,7 @@
 
 #define number 100
 #define show_number 4
-#define R 4
+#define R 1
 
 Vector2 pos1[number],pos2[number];
 Color color[show_number]={RED,WHITE,BLUE,GREEN};
@@ -26,13 +26,13 @@ void init(){
         pos2[i].y=HEIGHT/2;
         rms1 = 0;
         rms2 = 0;
-
+        SetRandomSeed(time(NULL));
     }
 }
 
 void step(){
-    srand(time(NULL));
     rms1 =rms2;
+    rms2 =0;
     for(int i=0;i<number;i++){
         float phi=GetRandomValue(0,360)*DEG2RAD;
         pos1[i].x =pos2[i].x;
