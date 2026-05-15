@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/setsuna/Desktop/c4phy/src/c/project/random walk/main'
+relocations:     []
+...
