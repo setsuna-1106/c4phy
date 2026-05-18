@@ -1,0 +1,29 @@
+# ── macOS ──
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ── Python ──
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# ── C build artifacts ──
+build/
+*.o
+*.out
+*.exe
+
+# ── macOS debug symbols ──
+*.dSYM/
+
+# ── IDE ──
+.idea/
+
+# ── CSV / data dumps ──
+*.csv
+
+# ── Misc ──
+Thumbs.db

@@ -23,3 +23,20 @@ We will present a simple model for a 2D walk, and end up with a model for normal
 In our random-walk simulation an artificial walker takes sequential steps with the direction of each step independent of the direction of the previous step. 
 
 ![截屏2026-05-14 00.02.43](/Users/setsuna/Desktop/c4phy/notes/Monte Carlo Simulations/Monte Carlo Simulations.assets/Monte Carlo Simulation2.png)
+
+#### Random Protein Folding
+
+The walk is restricted such that the only positions available after each step are the three neighboring sites, with the already occupied sites excluded (this is why this technique is known as a self-avoiding random walk).
+
+The goal of the simulation is to find the lowest energy state of a sequence of H and P monomers with links of various lengths.
+
+The energy of a chain is defined as $E=-\epsilon f$
+
+where 𝜖 is a positive constant and f is the number of H–H neighbor not connected directly(P–P and H–P bonds do not count at lowering the energy).
+
+### 4.3 Spontaneous Decay
+
+Your problem is to simulate the time dependence of the decay of a small number N of radioactive particles.
+
+Spontaneous decay is a natural process in which a particle, with no external stimulation, decays into other particles.
+
