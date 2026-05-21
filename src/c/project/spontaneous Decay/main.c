@@ -4,6 +4,7 @@
 
 #define N 10000000
 #define T 200
+#define P 10
 
 int p[N];
 long number,count;
@@ -28,7 +29,7 @@ void step(){
 
     for(int i=0;i<N;i++){
         if(p[i]){
-            if(rand()%100<10){
+            if(rand()%100<P ){
                 p[i]=0;
             }
         }
@@ -37,7 +38,7 @@ void step(){
     count++;
 }
 
-int main (){
+int main (int argc, char **argv){
     init();
     FILE *fp=fopen("number_of_particles.csv","w");
     for(int i=0;i<T;i++){

@@ -40,3 +40,72 @@ Your problem is to simulate the time dependence of the decay of a small number N
 
 Spontaneous decay is a natural process in which a particle, with no external stimulation, decays into other particles.
 
+#### 4.3.1 Discrete Decay Model
+
+We convert the statement “the probability $P$ of any one particle decaying per unit time is a constant” into the equation
+$$
+P=\frac{\Delta N(t)/N(t)}{\Delta t}=-\lambda
+$$
+where the constant 𝜆 is called the decay rate and the minus sign indicates a decreasing number.[Actually, because the number of decays ΔN(t) is proportional to the difference in random numbers, it tends to show even larger statistical fluctuations than does N(t).]
+
+#### 4.3.2 The Exponential Decay Approximation
+
+When the number of particles N → ∞ and the observation time interval Δt → 0, the difference equation (4.21) becomes a differential equation,nd we obtain the familiar exponential decay law:
+$$
+\frac{\Delta N(t)}{\Delta t}\rightarrow \frac{dN(t)}{dt}=-\lambda N(t)
+$$
+This equation can be integrated to obtain the time dependencies of the total number of particles and of the total activity:
+$$
+N(t)=N(0)e^{-\lambda t}=N(0)e^{-t/\tau}
+$$
+
+
+#### 4.3.3 Discrete Decay Simulation
+
+the example is in Spontaneous decay
+
+
+
+### 4.4 Testing and Generating Random Distributions
+
+Since the computer’s random numbers are generated according to a definite rule, they must be correlated with each other. *This can affect a simulation that assumes truly random events.*
+Therefore it is wise to test a random-number generator to obtain a numerical measure of its uniformity and randomness before you stake your scientific reputation on it.
+
+##### A simple test of uniformity
+
+A simple test of uniformity evaluates the kth moment of a distribution:
+$$
+\langle x^k \rangle = \frac{1}{N} \sum_{i=1}^{N} x_i^k
+$$
+If the numbers are distributed uniformly, then (4.26) is approximately the moment of the distribution function P(x):
+$$
+\frac{1}{N}\sum_{i=1}^{N} x_i^k
+\simeq
+\int_{0}^{1} dx\, x^k P(x)
+\simeq
+\frac{1}{k+1}
++
+O\!\left(\frac{1}{\sqrt{N}}\right).
+$$
+*If holds for your generator, then you know that the distribution is uniform.* 
+
+You can see the test in ex1.c
+
+##### A simple test of the near-neighbour correlation in random sequence
+
+By taking sums of products for small k:
+$$
+C(k)=\frac{1}{N}\sum^N_{i=1}x_ix_{i+k},\quad(k=1,2,...).
+$$
+If your random numbers $x_i$ and $x_{i+k}$ are distributed with the joint probability distribution $P(x_i, x_{i+k}) = 1$ and are independent and uniform, then it can be approximated as an integral:
+$$
+\frac{1}{N}\sum_{i=1}^{N} x_i x_{i+k}
+\simeq
+\int_{0}^{1} dx \int_{0}^{1} dy\, xy\, P(x,y)
+=
+\int_{0}^{1} dx \int_{0}^{1} dy\, xy
+=
+\frac{1}{4}.
+$$
+You can see the test in ex2.c
+
