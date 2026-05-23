@@ -281,3 +281,4 @@ Remember, the number of points N must be odd for Simpson's rule.
 
 #### 5.3.4 Simple Integration Error Estimates
 
+·
