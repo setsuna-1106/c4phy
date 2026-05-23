@@ -158,3 +158,126 @@ y(t+h)+y(t-h)-2y(t)
 $$
 
 Although the form ( 9 ) is more compact and requires fewer steps than ( 8 ), it may increase subtrative cancellation by first storing the "large" number,and then subtracting another large number feom it.
+
+
+
+### 5.3 Integration Algorithm
+
+#### 5.3.1 Box Counting
+
+The Riemann definition of an integral is the limit of the sum over boxes as the width h of the box approaches zero.
+$$
+\int_a^b f(x)\,dx
+=
+\lim_{h\to 0}
+\left[
+h\sum_{i=1}^{(b-a)/h} f(x_i)
+\right].
+$$
+The numerical integral of a function $f(x)$ is approximated as the equivalent of a finite sum over boxes of height $f(x)$ and width $w_i$:
+$$
+\int_a^b f(x)\,dx
+\simeq
+\sum_{i=1}^{N} f(x_i)w_i.
+$$
+Equation( 11 ) is the standard from for all integration algorithms
+
+In general, you should not attempt a numerical integration of an integrand that contains a singularity without first somehow removing the singularity. You may be able to do this very simply by *breaking the interval down into several subintervals* so the singularity is at an endpoint where an integration point is not placed, or by a *change of variable* 
+
+Likewise, if your integrand has a very slow variation in some region, you can speed up the integration by changing to a variable that compresses that region and places few points there, or divides up the interval and performs several integrations. Conversely, if your integrand has a very rapid variation in some region, you may want to change to variables that expand that region to ensure that no oscillations are missed.
+
+
+
+#### 5.3.2 Trapezoid Rule
+
+The trapezoid and Simpson's integration rules both use evenly spaced values of x.They use N points $x_i ,i=1,N$,evenly spaced a distance h apart throught the integration region $[a,b]$,and include teh endpoints in the integration region.This means that there are (N-1) intervals, each of length h:
+$$
+h=\frac{b-a}{N-1},
+\qquad
+x_i=a+(i-1)h,
+\qquad
+i=1,\ldots,N.
+$$
+The trapezoid rule takes each integration interval i and constructs a trapezoid of width h in it.This approximates $f(x)$ by a straight line in each interval i,and uses the average height$(f_i+f_{i+1})/2$ as the value for $f$
+
+![截屏2026-05-22 16.44.58](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-22 16.44.58.png)
+
+The area of each such trapezoid is:
+$$
+\int_{x_i}^{x_i+h} f(x)\,dx
+\simeq
+\frac{h(f_i+f_{i+1})}{2}
+=
+\frac{1}{2}h f_i
++
+\frac{1}{2}h f_{i+1}.
+$$
+In order to apply the trapezoid rule to the entrie rigion $[a,b]$, we add the contributions from ezch subinterval:
+$$
+\int_a^b f(x)\,dx
+\simeq
+\frac{h}{2}f_1
++
+h f_2
++
+h f_3
++
+\cdots
++
+h f_{N-1}
++
+\frac{h}{2}f_N.
+$$
+we have
+$$
+w_i=\{\frac h2,h,...,h,\frac h2\}\qquad(Trapezoid\ rule).
+$$
+
+#### 5.3.3 Simpson's Rule
+
+Simpson's rule approximates the integrand $f(x)$ by a parabola within each equally spaced interal
+$$
+f(x)\simeq \alpha x^2+\beta x+\gamma.
+$$
+we evaluate the function at the two endpoints and in the middle
+$$
+\int_{x_i-h}^{x_i+h} f(x)\,dx
+=
+\int_{x_i}^{x_i+h} f(x)\,dx
++
+\int_{x_i-h}^{x_i} f(x)\,dx
+\simeq
+\frac{h}{3}f_{i-1}
++
+\frac{4h}{3}f_i
++
+\frac{h}{3}f_{i+1}.
+$$
+Take notes: Simpson's rule requires the elementary integration to be over pairs of intervals
+
+In order to apply Simpson’s rule to the entire interval, we add up the contributions from each pair of subintervals, counting all but the first and last endpoints twice:
+$$
+\int_a^b f(x)\,dx
+\simeq
+\frac{h}{3}f_1
++
+\frac{4h}{3}f_2
++
+\frac{2h}{3}f_3
++
+\frac{4h}{3}f_4
++
+\cdots
++
+\frac{4h}{3}f_{N-1}
++
+\frac{h}{3}f_N.
+$$
+In terms of our standard integration rule, we have
+$$
+w_i=\{\frac h3,\frac{4h}3,\frac{2h}3,\frac{4h}3,...,\frac{4h}3,\frac h3\}\qquad(Simpson's\ rule).
+$$
+Remember, the number of points N must be odd for Simpson's rule.
+
+#### 5.3.4 Simple Integration Error Estimates
+
