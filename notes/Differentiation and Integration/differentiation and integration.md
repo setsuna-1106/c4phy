@@ -281,4 +281,157 @@ Remember, the number of points N must be odd for Simpson's rule.
 
 #### 5.3.4 Simple Integration Error Estimates
 
-·
+We can multiply that error by the number of intervals N to estimate the error for the entire region $[a,b]$. For the trapezoid and Simpson's rules this yields
+$$
+\mathcal{E}_t
+=
+O\!\left(
+\frac{(b-a)^3}{N^2}
+\right) f^{(2)},
+\qquad
+\mathcal{E}_s
+=
+O\!\left(
+\frac{(b-a)^5}{N^4}
+\right) f^{(4)},
+\qquad
+\mathcal{E}_{t,s}
+=
+\frac{\mathcal{E}_{t,s}}{f}.
+$$
+where $\epsilon$ is a measure of the relative error.
+
+We want to determine an N that minimizes the total error,that is ,the sum of the approximation and round-off errors:
+$$
+\epsilon_{tot}=\simeq\epsilon_{ro}+\epsilon_{app}
+$$
+This occurs,approximately, when the two errors are equal magnitude, which we approximate even further by assuming that the two errors are equal:
+$$
+\epsilon_{\mathrm{ro}}
+=
+e_{\mathrm{app}}
+=
+\frac{\mathcal{E}_{\mathrm{trap,simp}}}{f}.
+$$
+To continue the search for optimum N for ageneral function f,we set the scale of function size and lengths by assuming
+$$
+\frac{f^{(n)}}{f} \simeq 1,
+\qquad
+b-a=1
+\quad\Rightarrow\quad
+h=\frac{1}{N}.
+$$
+The estimate, when applied to the trapezoid rule,yields
+$$
+\sqrt{N}\epsilon_m
+\simeq
+\frac{f^{(2)}(b-a)^3}{fN^2}
+=
+\frac{1}{N^2},
+$$
+
+$$
+\Rightarrow\quad
+N
+\simeq
+\frac{1}{(\epsilon_m)^{2/5}}
+=
+\left(
+\frac{1}{10^{-15}}
+\right)^{2/5}
+=
+10^6,
+$$
+
+$$
+\Rightarrow\quad
+\epsilon_{\mathrm{ro}}
+\simeq
+\sqrt{N}\epsilon_m
+=
+10^{-12}.
+$$
+
+The estimate,when applied to Simpson's rule, yields
+$$
+\sqrt{N}\epsilon_m
+\simeq
+\frac{f^{(4)}(b-a)^5}{fN^4}
+=
+\frac{1}{N^4},
+$$
+
+$$
+\Rightarrow\quad
+N
+=
+\frac{1}{(\epsilon_m)^{2/9}}
+=
+\left(
+\frac{1}{10^{-15}}
+\right)^{2/9}
+=
+2154,
+$$
+
+$$
+\Rightarrow\quad
+\epsilon_{\mathrm{ro}}
+\simeq
+\sqrt{N}\epsilon_m
+=
+5\times 10^{-14}.
+$$
+
+These result are illuminating in that they show how:
+
+1. Simpson's rule requires fewer points and has less error than the trapezoid rule.
+2. It is possible to obtian an error close to machine precision with Simpson's rule(and with other higher-order integration algorithms).
+3. Obtaining the best numerical approximation to an integral is not achieved by letting N → ∞, but with a relatively small N ≤ 1000. Larger N only gives you more round-off errors.
+
+you can see the estimate in main.c and visual.py in file integration/.
+
+#### 5.3.5 Higher-Order Algorithms
+
+As in numerical differentiation, we can use the known functional dependence of the error on interval size h to reduce the integration error.
+
+To illustrate, if A(h) and A(h∕2) are the values of the integral determined for intervals h and h∕2, respectively, and if we assume that the numerical evaluation of the integral has an error whose expansion has a leading error term proportional to $h^2$
+$$
+A(h) \simeq \int_a^b f(x)\,dx + \alpha h^2 + \beta h^4 + \cdots,
+$$
+
+$$
+\text{then}\qquad
+A\left(\frac{h}{2}\right)
+\simeq
+\int_a^b f(x)\,dx
++
+\frac{\alpha h^2}{4}
++
+\frac{\beta h^4}{16}
++
+\cdots .
+$$
+
+Consequently, we can make the $h^2$ term in the error vanish by computing the integral as the combination
+$$
+A
+\simeq
+\frac{4}{3}A\left(\frac{h}{2}\right)
+-
+\frac{1}{3}A(h)
+\simeq
+\int_a^b f(x)\,dx
+-
+\frac{\beta h^4}{4}
++
+\cdots .
+$$
+![截屏2026-05-24 16.33.06](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-24 16.33.06.png)
+
+this is Romberg’s **extrapolation**.
+
+
+
+### 5.4 Gaussian Quadrture
+
