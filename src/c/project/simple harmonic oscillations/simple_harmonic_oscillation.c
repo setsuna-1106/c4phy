@@ -9,13 +9,15 @@
 #define dt 1e-2
 
 double x_1, x_2, v_1, v_2, a_1, a_2;
+double E1, E2;
 
 void init() {
   srand(time(NULL));
   x_1 = (double)(rand() % 10);
   v_1 = (double)(rand() % 20);
   a_1 = -k * x_1 / m;
-
+  E1 = m * v_1 * v_1 / 2 + k * x_1 * x_1 / 2;
+  E2 = E1;
   x_2 = x_1;
   v_2 = v_1;
   a_2 = a_1;
@@ -25,6 +27,7 @@ void step_Euler(double t) {
   a_1 = -k * x_1 / m;
   x_1 += v_1 * t;
   v_1 += a_1 * t;
+  E1 = m * v_1 * v_1 / 2 + k * x_1 * x_1 / 2;
 }
 // 显式Euler方法
 
@@ -32,6 +35,7 @@ void step_Euler_Cromer(double t) {
   a_2 = -k * x_2 / m;
   v_2 += a_2 * t;
   x_2 += v_2 * t;
+  E2 = m * v_2 * v_2 / 2 + k * x_2 * x_2 / 2;
 }
 // 半隐式Euler方法
 
@@ -40,8 +44,8 @@ int main() {
   FILE *fp2 = fopen("x-v2.csv", "w");
   init();
   for (int i = 0; i < 1000; i++) {
-    fprintf(fp1, "%lf,%lf\n", x_1, v_1);
-    fprintf(fp2, "%lf,%lf\n", x_2, v_2);
+    fprintf(fp1, "%lf,%lf,%lf\n", x_1, v_1, E1);
+    fprintf(fp2, "%lf,%lf,%lf\n", x_2, v_2, E2);
     step_Euler_Cromer(dt);
     step_Euler(dt);
   }

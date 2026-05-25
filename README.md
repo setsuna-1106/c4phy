@@ -35,16 +35,20 @@ c4phy/
 │   ├── error/                          #   误差分析（减法抵消、舍入误差、误差累积）
 │   ├── Differentiation and Integration/#   数值微分与积分（向前/向后/中心差分，梯形/辛普森积分）
 │   ├── Monte Carlo Simulations/        #   蒙特卡洛模拟（随机数生成、随机行走、蛋白质折叠）
-│   └── C_Python_Workflow.md           #   C + Python 计算物理工作流手册
+│   ├── C_Python_Workflow.md           #   C + Python 计算物理工作流手册
+│   └── Project_Documentation_Template.md #   项目文档通用模板
 │
 ├── src/
 │   ├── c/project/                      # C 语言项目
 │   │   ├── simple harmonic oscillations/  # 简谐振动
+│   │   ├── damped oscillation/            # 阻尼振动
 │   │   ├── double pendulum/               # 双摆（Raylib 实时可视化）
 │   │   ├── random walk/                   # 随机行走（含自回避行走 / 蛋白质折叠）
 │   │   ├── Spontaneous decay/             # 放射性自发衰变模拟
 │   │   └── Reflection of light in a sphere/  # 球内光线反射
 │   └── python/project/                 # Python 项目
+│       ├── simple harmonic oscillation/   # 简谐振动可视化
+│       ├── damped oscillation/            # 阻尼振动可视化
 │       ├── random walk/                   # 随机行走可视化
 │       └── spontaneous dacey/             # 自发衰变可视化
 │
@@ -127,6 +131,7 @@ gcc ex1.c -o ex1 -lm && ./ex1
 | 数值积分（梯形法、辛普森法） | ✅ | ✅ | — |
 | 蒙特卡洛模拟（随机数、随机行走、蛋白质折叠） | ✅ | ✅ | — |
 | 简谐振动 | — | ✅ | ✅ |
+|阻尼振动|-|✅|✅|
 | 双摆 | ✅ | ✅ | ✅ |
 | 随机行走（含自回避行走） | ✅ | ✅ | ✅ |
 | 自发衰变 | — | ✅ | ✅ |
