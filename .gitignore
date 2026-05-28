@@ -27,3 +27,5 @@ build/
 
 # ── Misc ──
 Thumbs.db
+
+temp/

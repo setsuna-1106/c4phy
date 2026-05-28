@@ -435,3 +435,26 @@ this is Romberg’s **extrapolation**.
 
 ### 5.4 Gaussian Quadrture
 
+It is often useful to rewrite the basic integration formula with a weightinh function $W(x)$ separate from the integrand:
+$$
+\int_a^b f(x)\,dx
+\equiv
+\int_a^b W(x)g(x)\,dx
+\simeq
+\sum_{i=1}^{N} w_i g(x_i).
+$$
+In the Gaussian quadrature approach to integration, the N points and weights in (34) are chosen to make the integration exact if $g(x)$ were a $(2N-1)$degree polynomial.
+
+To obtain this incredible optimization, the points $x_i$ end up having a specific distribution over $[a,b]$.
+
+All the rules indicated in Table are form of Gaussian quadrature following the general form (34)![截屏2026-05-26 18.43.26](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-26 18.43.26.png)
+
+
+
+#### 5.4.1 Mapping Gaussian Points
+
+Our standard integration rule for the general interval $[a,b]$ is
+$$
+\int^b_af(x)dx\simeq \sum^N_{i=1}f(x_i)w_i.
+$$
+With Gaussian points and weights, the y interval $-1<y_i\le1$ must be mapped onto the x interval $a\le x\le b$.
