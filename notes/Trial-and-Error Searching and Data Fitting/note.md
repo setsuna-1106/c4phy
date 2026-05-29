@@ -123,3 +123,70 @@ But sometime the Newton-Raphson search will fail.
 ![截屏2026-05-28 18.59.26](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-28 18.59.26.png)
 
 #### 6.3.1 Search + Backtracking
+
+Two examples of posiible problems with the Newton-Raphson algorithm are shown in Firgure.On the left, we can see a case where teh search takes us to an x value where teh functino has a local extremum(minimum or maximum),that is, where $df/dx=0$.
+
+When it happens, you need to start your search with a different guess.
+
+The other problem is that a search falls into an infinite loop surronding the zero,without ever getting there.
+
+A solution to this problem is *backtracking*.As the name implies, in cases where the new guess $x_0+\Delta x$leads to an increase in the magnitude of the function,$|f(x_0+\Delta x)|^2>|f(x_0)|^2$, you can backtrack somewhat and  try a smaller guess, say, $x_0+\Delta x/2$.If the magnitude of f still increase, then you just need to backtrack some more.
+
+The problem in both these cases is that the initial guesses were not close enough to the regions where $f(x)$ is approximately linear.
+
+
+
+### 6.4 Magnetization Search
+
+**Problem** Determine $M(T)$ the magnetization as a function of temperature for simple magnetic materials.
+
+
+
+### 6.5 Data Fitting
+
+**Problem** The cross section measured for the resonant scattering of neutrons from a nucleus are given in Table. Your problem is to determine values for the cross sections at energy values lying between those in the table.
+
+![截屏2026-05-29 15.09.31](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-29 15.09.31.png)The simplest is to numerically interpolate bewteen the values of the experimental $f(E_i)$ given in Table.This is direct and easy, but dose not account for there being experimental noise in the data.
+A more appropriate solution is to find the *best fit* of a theoretical function to the data.
+
+We start with what we believe to be the "correct" theoretical description of the data,
+$$
+f(E)
+=
+\frac{f_r}
+{(E-E_r)^2+\Gamma^2/4}.
+$$
+Where $f_r,E_r,and\ \Gamma$ are unknown parameters. We then adjust the parameters to obtain the best fit. This is a best fit in a statistical sense, but in fact may not pass through all (or any) of the data points.
+
+These two techniques of interpolaion and least-squares fitting are powerful tools that let you treat tables of numbers as if they were analytic functions, and sometimes let you deduce statistically meaningful constants or conclusion from measurements.
+
+Consider Table as ordered data.We assume that $g(x)$ can be approximated as an (n-1)th-degree polynomial in each interval i:
+$$
+g_i(x)\simeq a_0+a_1x+a_2x^2+...+a_{n-1}x^{n-1}.
+$$
+Seeing that our fit is local, we do not assume that one $g(x)$ can fit all the data in the table, but instead use a diffenrent polynomial, that is, a different set of $a_i$ values, for each interval.
+
+The classic interpolation formula was created by Lagrange. He figured out a closed-form expression that directly fits the (n-1) order polynomial to n values of the funtion $g(x)$ evaluated at the points $x_i$. The formula for each interval is written as the sum of polynomials:
+$$
+g(x) \simeq g_1\lambda_1(x)+g_2\lambda_2(x)+\cdots+g_n\lambda_n(x),
+$$
+
+$$
+\lambda_i(x)=
+\prod_{\substack{j=1\\ j\ne i}}^{n}
+\frac{x-x_j}{x_i-x_j}
+=
+\frac{x-x_1}{x_i-x_1}
+\frac{x-x_2}{x_i-x_2}
+\cdots
+\frac{x-x_n}{x_i-x_n}.
+$$
+
+If the data contain little noise, this polynomial can be used with some confidence within the range of the data, but with risk beyond the range of the data.
+
+Notice that Lagrange interpolation makes no restriction that the points xi be evenly spaced. Usually, the Lagrange fit is made to only a small region of the table with a small value of n, despite the fact that the formula works perfectly well for fitting a high-degree polynomial to the entire table. The difference between the value of the polynomial evaluated at some x and that of the actual function can be shown to be the remainder
+$$
+R_n(x) = \frac{(x - x_1)(x - x_2)\cdots(x - x_n)}{n!}\, g^{(n)}(\xi),
+\quad \xi \in (x_1, x_n)
+$$
+where $\xi$ lies somewhere in the interpolation interval.
