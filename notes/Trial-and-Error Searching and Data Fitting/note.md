@@ -190,3 +190,107 @@ R_n(x) = \frac{(x - x_1)(x - x_2)\cdots(x - x_n)}{n!}\, g^{(n)}(\xi),
 \quad \xi \in (x_1, x_n)
 $$
 where $\xi$ lies somewhere in the interpolation interval.
+
+#### 6.5.2 Cubic Spline Interpolation
+
+A siphisticated variation of an n=4 interpolation, known as *cubic splines*, often leads to surprisingly smooth and eye-pleasing fits.
+
+The series of cubic polynomials obtained by spline-fitting a table of data can be integrated and differentiated, and is guaranteed to have well-behaved derivatives.
+
+The basic approximation of splines is the representation of the function $g(x)$ in the subinterval $[x_i,x_{i+1}]$ with a cubic polynomial:
+$$
+g(x) \approx g_i(x), \quad x_i \le x \le x_{i+1}
+$$
+
+$$
+g_i(x) = g(x_i) + g'(x_i)(x - x_i) 
++ \frac{1}{2} g''(x_i)(x - x_i)^2 
++ \frac{1}{6} g'''(x_i)(x - x_i)^3
+$$
+
+This representation makes it clear that the coefficients in the polynomial equal the values of $g(x)$ and its first, second, and third derivatives at the tabulated points $x_i$.Derivatives beyond the third vanish for a cubic.
+The matching of $g_i$ at the *nodes* that connect one interval to the next provides the equations
+$$
+g_i(x_{i+1})=g_{i+1}(x_{i+1}),i=1,N-1.
+$$
+The matching of the first and second derivatives at each interval's boundaries provides the equations
+$$
+g'_{i-1}(x_i) = g'_i(x_i), \quad 
+g''_{i-1}(x_i) = g''_i(x_i)
+$$
+The additional equations needed to determine all constants are obtiained by matching the third derivatives at adjacent nodes.Values for the third derivatives are found by approximating them in terms of the second derivatives:
+$$
+g'''_i\simeq\frac{g''_{i+1}-g''_i}{x_{i+1}-x_i}.
+$$
+We can see that matching at the boundaries of the intervals results in only (N-2) linear equations for N unknowns. It usually is taken to be the boundary conditions at the endpoints $a=x_1$ and $b=x_N$, specifically, the second dervatives there $g''(a)$ and $g''(b)$. There are several ways to determine these second derivatives:
+
+1. **Natural spline**:Set $g''(a)=g''(b)=0$; that is, permit the function to have a slope at the endpoints but no curvature. This is "natural" because the derivative vanishes for the flexible spline drafting tool.
+2. **Input values for $g'$ or $g''$ at the boundaries**
+
+
+
+### 6.6 Fitting Exponential Decay
+
+The basic law of nature for spontaneous decay is that the number of decays $\Delta N$ in a time interval $\Delta t$ is proportional to the number of particles $N(t)$ present at that time and to the time interval
+$$
+\Delta N(t)
+=
+-\frac{1}{\tau}N(t)\Delta t
+\quad\Rightarrow\quad
+\frac{\Delta N(t)}{\Delta t}
+=
+-\lambda N(t).
+$$
+Here $\tau=1/\lambda$ is the *lifetime* of the particle, with $\lambda$ a rate parameter. The actual decay *rate* is given by the second equation
+
+
+
+### 6.7 Least-Squares Fitting
+
+What is meant by a "good fit" to experimental data. However, we will emphasize three points:
+
+1. If the data being fit contain errors, then the "best fit" in a statistical sense should not pass through all the data points.
+2. If the theory is not an appropriate one for the data, then its best fit to the data may not be a good fit at all. This is good, for this is how we know that the theory is not appropriate.
+3. Only for the simplest case of a linear least-squares fit can we write down a closed-form solution to evaluate and obtain the best fit.
+
+Imagine that you have measured $N_D$ data values of the independent variable y as a function of the dependent variable x:
+$$
+(x_i, y_i \pm \sigma_i),\quad i = 1, N_D
+$$
+where $\pm \sigma_i$ is the experimental uncertianty in the ith value of y. (For simplicity we assume that all the errors $\sigma_i$ Occur in the dependent variable, although this is hardly ever true). For our problem, y is the number of decays as function of time , and $x_i$ is the times. Our goal is to determine how well a mathematical function $y=g(x)$ can describe these data.
+Additionally, if the theory contains some parameters or constants, our goal is also to determine the best values for these parameters.
+
+We assume that the theory funcion $g(x)$ contain, in additiona to the functional dapendence on x, an additional dependence upon $M_P$ parameters ${a_1,a_2,...,a_{M_P}}$. Notice that the parameter $\{a_m\}$ are not variables but rather are parts of the theoretical model.
+
+We indicate this as 
+$$
+g(x)=g(x;\{a_1,a_2,\ldots,a_{M_P}\})=g(x;\{a_m\})
+$$
+Where the $a_i$'s are parameters and x the independent variable.
+
+We use the chi-square, $\chi^2$, measure as a gague of how well a theoretical function g reproduces data:
+$$
+\chi^2 \overset{\mathrm{def}}{=} 
+\sum_{i=1}^{N_D}
+\left(
+\frac{y_i - g(x_i;\{a_m\})}{\sigma_i}
+\right)^2
+$$
+where the sum is over the $N_D$ experimental points. The definition is such that smaller values of $\chi^2$ are better fits, with $\chi^2=0$ occuring if the theoretical curve went through the center of every data point. Notice also that the $1/\sigma_i^2$ weighting means that measurements with larger errors contribute less to $\chi^2$.
+
+Least-squares fitting refers to adjustong the parameters in the theory until a minimum in $\chi^2$ is found, that is, finding a curve that produces the least value for the summed squares of the deviations of the data from the function $g(x)$.
+
+The $M_P$ prameters that make $\chi^2$ an extremum are found by solving the $M_P$ equations:
+$$
+\frac{\partial \chi^2}{\partial a_m}=0,
+\quad \Rightarrow \quad
+\sum_{i=1}^{N_D}
+\frac{\left[y_i-g(x_i)\right]}{\sigma_i^2}
+\frac{\partial g(x_i)}{\partial a_m}
+=0,
+\quad (m=1,M_P).
+$$
+
+
+### 6.8 Nonlinear Fit to a Resonance
+
