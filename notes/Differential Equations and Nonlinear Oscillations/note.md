@@ -175,4 +175,112 @@ Whereas we do not recommend Euler’s algorithm for general use, it is commonly 
 #### 8.4.2 Runge-Kutta Rule
 
 The Runge-Kutta algorithm for integrating a differential equation is based upon the formal (exact) integral of our differential equation:
+$$
+\frac{dy}{dt} = f(t, y) \quad \Rightarrow \quad
+y(t) = \int f(t, y)\, dt
+$$
+
+$$
+\Rightarrow \quad
+y_{n+1} = y_n + \int_{t_n}^{t_{n+1}} f(t, y)\, dt
+$$
+
+To derive the second-order Runge-Kutta algorithm **rk2**, we expand $f(t,y)$ in a Taylor series about the midpoint of the integration interval and retain two terms in the expansion:
+$$
+f(t, y) \simeq 
+f(t_{n+1/2}, y_{n+1/2}) 
++ (t - t_{n+1/2}) \frac{df}{dt}(t_{n+1/2}) 
++ \mathcal{O}(h^2)
+$$
+Since $(t-t_{n+1/2})$ raised to any odd power is equally positive and negative over the interval $[t_n,t_{n+1}]$, the integral of the $(t-t_{n+1/2})$ term in vanishes and we obtain the **rk2 algorithm**:
+$$
+\int_{t_n}^{t_{n+1}} f(t, y)\, dt 
+\simeq f(t_{n+1/2}, y_{n+1/2}) h + \mathcal{O}(h^3)
+$$
+
+$$
+\Rightarrow \quad
+y_{n+1} \simeq y_n + h f(t_{n+1/2}, y_{n+1/2}) + \mathcal{O}(h^3)
+$$
+
+And there's the rub, for we do not know the value of $y_{n+1/2}$ and cannot use this algorithm to determine it. The way out of this quandary is to use Euler's algorithm to determine $y_{n+1/2}$:
+$$
+y_{n+1/2} \simeq y_n + \frac{1}{2} h \frac{dy}{dt} 
+= y_n + \frac{1}{2} h f(t_n, y_n)
+$$
+Putting the pieces all together gives the complete **rk2** algorithm:
+$$
+\mathbf{y}_{n+1} \simeq \mathbf{y}_n + \mathbf{k}_2, \quad (\text{rk2})
+$$
+
+$$
+\mathbf{k}_1 = h \mathbf{f}(t_n, \mathbf{y}_n), \quad
+\mathbf{k}_2 = h \mathbf{f}\Big(t_n + \frac{h}{2}, \mathbf{y}_n + \frac{\mathbf{k}_1}{2}\Big)
+$$
+
+Where we use boldface to indicate the vector nature of y and f. We see that the known derivative function F is evaluated at the ends and the midpoint of the interval, but only the initial value of the dependent variable y is required. This makes the algorirhm self-starting.
+
+The fourth-order Runge-Kutta method **rk4** obtains $\mathcal O(h^4)$ precision by approximating y as a Talor series up to order $h^2$ (a parabola) at the midpoint of the interval, which again leads to cancellation of lower-order error.All in all, rk4 provides an excellent balance of power, precision, and programming simplicity. With rk4 there are four intermediate slopes, and these are approximated with the Euler algorithm:
+$$
+\mathbf{y}_{n+1}
+=
+\mathbf{y}_n
++
+\frac{1}{6}
+\left(
+\mathbf{k}_1
++
+2\mathbf{k}_2
++
+2\mathbf{k}_3
++
+\mathbf{k}_4
+\right),
+$$
+
+$$
+\mathbf{k}_1
+=
+h\mathbf{f}(t_n,\mathbf{y}_n),
+$$
+
+$$
+\mathbf{k}_2
+=
+h\mathbf{f}
+\left(
+t_n+\frac{h}{2},
+\mathbf{y}_n+\frac{\mathbf{k}_1}{2}
+\right),
+$$
+
+$$
+\mathbf{k}_3
+=
+h\mathbf{f}
+\left(
+t_n+\frac{h}{2},
+\mathbf{y}_n+\frac{\mathbf{k}_2}{2}
+\right),
+$$
+
+$$
+\mathbf{k}_4
+=
+h\mathbf{f}
+\left(
+t_n+h,
+\mathbf{y}_n+\mathbf{k}_3
+\right).
+$$
+
+
+
+#### 8.4.3 Adams-Bashful-Moulton Predictor-Corrector Rule
+
+Another approach for obtaining high precision in an ODE algorithm uses the solution from twi previous steps, $y_{n-2}$ and $y_{n-1}$, in addition to $y_n$, to predict $y_{n+1}$
+
+
+
+### 8.5 Solution for Nonlinear Oscillations
 
