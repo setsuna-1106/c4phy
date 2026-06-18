@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define WIDTH 6400 
-#define HEIGHT 4000
+#define WIDTH 640
+#define HEIGHT 400
 #define FPS 60
 
-#define R 1
-#define N 10000
+#define R 2
+#define N 1000
 
 Vector2 p[N], v[N];
 
@@ -21,8 +21,8 @@ void init() {
   for (int i = 0; i < N; i++) {
     p[i].x = GetRandomValue(R, WIDTH - R);
     p[i].y = GetRandomValue(R, HEIGHT - R);
-    v[i].x = (float)GetRandomValue(-300, 300) * 5;
-    v[i].y = (float)GetRandomValue(-300, 300) * 5;
+    v[i].x = (float)GetRandomValue(-30, 30) * 5;
+    v[i].y = (float)GetRandomValue(-30, 30) * 5;
     /*速度分布需要优化*/
   }
   momentum = 0;
@@ -30,8 +30,9 @@ void init() {
 }
 
 void step(double dt) {
-  momentum = 0;
   count++;
+  if (count % 60 == 0)
+    momentum = 0;
   for (int i = 0; i < N; i++) {
     p[i].x += v[i].x * dt;
     p[i].y += v[i].y * dt;
@@ -99,23 +100,22 @@ void Drawparticles() {
 
 int main() {
   FILE *fp = fopen("the_froce.csv", "w");
-  // InitWindow(WIDTH, HEIGHT, "ideal gas");
-  // SetTargetFPS(FPS);
+  InitWindow(WIDTH, HEIGHT, "ideal gas");
+  SetTargetFPS(FPS);
   init();
-  // while (!WindowShouldClose()) {
-  //   step((double)1 / FPS);
-  //   fprintf(fp, "%d,%lf\n", count,momentum);
-  //   ClearBackground(BLACK);
-
-  //   BeginDrawing();
-  //   Drawparticles();
-  //   EndDrawing();
-  // }
-  for(int i=0;i<1e3;i++){
+  while (!WindowShouldClose()) {
     step((double)1 / FPS);
-    fprintf(fp, "%d,%lf\n", count,momentum);
+    fprintf(fp, "%d,%lf\n", count, momentum);
+    ClearBackground(BLACK);
 
+    BeginDrawing();
+    Drawparticles();
+    EndDrawing();
   }
+  // for (int i = 0; i < 1e3; i++) {
+  //   step((double)1 / FPS);
+  //   if(count%60==0) fprintf(fp, "%d,%lf\n", count/60, momentum/60);
+  // }
   fclose(fp);
   return 0;
 }

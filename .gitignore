@@ -12,6 +12,7 @@ __pycache__/
 
 # ── C build artifacts ──
 build/
+main
 *.o
 *.out
 *.exe
@@ -29,3 +30,5 @@ build/
 Thumbs.db
 
 temp/
+website/
+AGENTS.md
