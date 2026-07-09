@@ -55,3 +55,56 @@ y(t)
 \dfrac{t-T}{T/2}, & \text{for } \dfrac{T}{2} \le t \le T.
 \end{cases}
 $$
+
+##### The half-wave function
+
+$$
+y(t)=
+\begin{cases}
+\sin \omega t, & \text{for } 0<t<T/2,\\
+0, & \text{for } T/2<t<T.
+\end{cases}
+$$
+
+
+
+#### 9.2 Eourier Transforms
+
+the Fourier transform or integral is the right tool for analyzing nonperiodic functions. We proceed from the series to the transform by imagining a system described by a continuum of "fundamental" frequencies, namely, wave packets.
+
+By analogy with ( 4 ), we imagine our function or signal $y(t)$ expressed in terms of a continuous series of harmonics (inverse Fourier transform):
+$$
+y(t)=\int_{-\infty}^{+\infty} d\omega\, Y(\omega)\frac{e^{i\omega t}}{\sqrt{2\pi}}
+$$
+where for compactness we use a complex exponential function. The expansion amplitude $Y(\omega)$ is analogous to the Fourier coefficients $(a_n,b_n)$, and is called the *Fourier transform* of $y(t)$. The integral is the inverse transform because it converts the transform to the signal. The *Fourier transform* converts the signal $y(t)$ to its transform $Y(\omega)$
+$$
+Y(\omega)=\int_{-\infty}^{+\infty} dt\, \frac{e^{-i\omega t}}{\sqrt{2\pi}}\,y(t).
+$$
+The $1/\sqrt {2\pi}$ factor in both these integrals is a common normalization in quantum mechanics, but may not be in engineering, where only a single 1 ∕ 2𝜋 factor is sometimes used. Likewise, the signs in the exponents are also conventions that do not matter as long as you maintain consistency.
+
+If the Fourier transform and its inverse are consistent with each other, we should be able to substitude ( 8 ) into ( 9 ) and obtain an identity:
+$$
+\begin{aligned}
+Y(\omega)
+&= \int_{-\infty}^{+\infty} dt\,
+\frac{e^{-i\omega t}}{\sqrt{2\pi}}
+\int_{-\infty}^{+\infty} d\omega'\,
+\frac{e^{i\omega' t}}{\sqrt{2\pi}}Y(\omega') \\[6pt]
+&= \int_{-\infty}^{+\infty} d\omega'\,
+\left\{
+\int_{-\infty}^{+\infty} dt\,
+\frac{e^{i(\omega'-\omega)t}}{2\pi}
+\right\}
+Y(\omega').
+\end{aligned}
+$$
+For this to e an identity, the term in braces must be the *Dirac delta function*:
+$$
+\int_{-\infty}^{+\infty} dt\, e^{i(\omega'-\omega)t}
+= 2\pi \delta(\omega'-\omega).
+$$
+While the delta function is one of the most commom and useful functions in theoretical physics, it is not well behaved in a mathematical sense, and misbehaves terribly in computational.While it is possible to create numerical approximations to 𝛿(𝜔 ′− 𝜔), they may well be borderline pathological.
+
+### 9.3 Discrete Fourier Transforms
+
+In practice, the signal $y(t)$ is measured at just a finite number $N$ of times t. The resultant *DFT* is an approximation, both because the signal is not known for all times, and because we integrate numerically. Once we have a discrete set of (approximate) transform values, they can be used to reconstruct the signal for any value of the time.

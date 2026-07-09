@@ -1,4 +1,4 @@
-#include <_stdlib.h>
+#include <_stdio.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@
 double x_1, x_2, v_1, v_2, a_1, a_2;
 double E1, E2;
 
-void init() {
+void init(void) {
   srand(time(NULL));
   x_1 = (double)(rand() % 10);
   v_1 = (double)(rand() % 20);
@@ -39,10 +39,14 @@ void step_Euler_Cromer(double t) {
 }
 // 半隐式Euler方法
 
-int main() {
+int main(void) {
   FILE *fp1 = fopen("x-v1.csv", "w");
   FILE *fp2 = fopen("x-v2.csv", "w");
+  if (fp1 == NULL || fp2 == NULL)
+    printf("open file error");
   init();
+  fprintf(fp1, "x,v,E");
+  fprintf(fp2, "x,v,E");
   for (int i = 0; i < 1000; i++) {
     fprintf(fp1, "%lf,%lf,%lf\n", x_1, v_1, E1);
     fprintf(fp2, "%lf,%lf,%lf\n", x_2, v_2, E2);

@@ -21,7 +21,7 @@ void init() {
 }
 
 void step_Euler_Cromer(double t1) {
-  a = -k * x / m - v * m;
+  a = -k * x / m - nu * v * m;
   v += a * t1;
   x += v * t1;
   t += t1;
