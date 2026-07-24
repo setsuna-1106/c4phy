@@ -14,7 +14,8 @@
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-L/opt/homebrew/lib",
-                "-lraylib"
+                "-lraylib",
+                "-lSDL2"
             ],
             "options": {
                 "cwd": "${fileDirname}"
