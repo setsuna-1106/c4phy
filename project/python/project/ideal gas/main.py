@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = "/Users/setsuna/Desktop/c4phy/src/c/project/ideal gas/the_froce.csv"
+path = "/Users/setsuna/Desktop/c4phy/project/c/project/ideal gas/the_froce.csv"
 data = np.loadtxt(path, delimiter=",")
 
 t = data.T[0]

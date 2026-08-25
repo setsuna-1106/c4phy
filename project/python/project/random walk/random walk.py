@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-path="/Users/setsuna/Desktop/c4phy/src/c/project/random walk/rw.csv"
+path="/Users/setsuna/Desktop/c4phy/project/c/project/random walk/rw.csv"
 data = np.loadtxt(path,delimiter=",");
 
 x=data.T[0]

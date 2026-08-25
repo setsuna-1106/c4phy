@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 path1 = (
-    "/Users/setsuna/Desktop/c4phy/src/c/project/simple harmonic oscillations/x-v1.csv"
+    "/Users/setsuna/Desktop/c4phy/project/c/project/simple harmonic oscillations/x-v1.csv"
 )
 path2 = (
-    "/Users/setsuna/Desktop/c4phy/src/c/project/simple harmonic oscillations/x-v2.csv"
+    "/Users/setsuna/Desktop/c4phy/project/c/project/simple harmonic oscillations/x-v2.csv"
 )
 data1 = np.loadtxt(path1, delimiter=",")
 data2 = np.loadtxt(path2, delimiter=",")

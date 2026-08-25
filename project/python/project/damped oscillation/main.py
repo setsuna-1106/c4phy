@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = "/Users/setsuna/Desktop/c4phy/src/c/project/damped oscillation/x-t.csv"
+path = "/Users/setsuna/Desktop/c4phy/project/c/project/damped oscillation/x-t.csv"
 data = np.loadtxt(path, delimiter=",")
 
 t = data.T[0]

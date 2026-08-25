@@ -58,20 +58,20 @@
 
 | 文件 | 职责 |
 |------|------|
-|`main.c`|主函数入口，数值模拟以及可视化|
+|`double_pendulum.c`|主函数入口，数值模拟以及可视化|
 
 
 ### 核心函数
 | 函数名                   | 功能描述                         |
 |--------------------------|----------------------------------|
-| `init_slover()`          | 初始化求解器                     |
+| `init_solver()`          | 初始化求解器                     |
 | `step()`                 | 利用Euler步进                    |
 | `draw_double_pendulum()` | 绘制双杠，以及下端小球的运动轨迹 |
 | `main()`                 | 主函数入口，绘图                 |
 
 
 ### 输入和输出
-无需输入，所有参数都通过init（）函数初始化得到
+无需输入，所有参数都通过init_solver()函数初始化得到
 无输出，运行的结果直接通过raylib 可视化呈现
 
 ## 5. 编译 & 运行
@@ -83,12 +83,12 @@
 ### 编译
 ```bash
 # Raylib 项目
-gcc main.c -o main $(pkg-config --cflags --libs raylib) -lm
+gcc double_pendulum.c -o double_pendulum $(pkg-config --cflags --libs raylib) -lm
 ```
 
 ### 运行
 ```bash
-./main
+./double_pendulum
 ```
 
 ## 6. 验证 & 结果

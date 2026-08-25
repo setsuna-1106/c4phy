@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # # ── load data ────────────────────────────────────────────────
 # data = np.loadtxt(
-#     "/Users/setsuna/Desktop/c4phy/src/c/project/spontaneous Decay/number_of_particles.csv",
+#     "/Users/setsuna/Desktop/c4phy/project/c/project/Spontaneous decay/number_of_particles.csv",
 #     delimiter=",",
 # )
 # t = data[:, 0]
@@ -53,7 +53,7 @@ import matplotlib.pyplot as plt
 # plt.savefig("spontaneous_decay.png", dpi=150)
 
 
-path="/Users/setsuna/Desktop/c4phy/src/c/project/spontaneous Decay/number_of_particles.csv"
+path="/Users/setsuna/Desktop/c4phy/project/c/project/Spontaneous decay/number_of_particles.csv"
 data = np.loadtxt(path,delimiter=",");
 
 x=data.T[0]
