@@ -109,14 +109,13 @@ y  = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
 ```
 double_pendulum/
-├── main.cpp                        # SDL 渲染 + 主循环(唯一接触 SDL 的物理侧文件之外)
+├── main.cpp                        # SDL 渲染 + 主循环(Trail / SdlApp)
 ├── include/
 │   ├── Math/Vector.h               # vector2D 二维向量类
 │   └── Physics/DoublePendulum.h    # 双摆物理类声明
-├── src/
-│   ├── Math/Vector.cpp
-│   └── Physics/DoublePendulum.cpp  # ODE 右端项 + RK4 + 能量
-└── assets/result_1.png             # 运行截图
+└── src/
+    ├── Math/Vector.cpp
+    └── Physics/DoublePendulum.cpp  # ODE 右端项 + RK4 + 能量
 ```
 
 ### 类设计
@@ -194,9 +193,7 @@ clang++ -Wall -Wextra -O2 -Iinclude \
 | 收敛阶 | log₂(误差比) ≈ **4.2**(RK4 理论值 4) |
 | 对比 C 版(Raylib,半隐式 Euler) | 能量误差约 1% → 3e-5,提升约 4~5 个数量级 |
 
-| 图 | 说明 |
-|----|------|
-| ![](assets/result_1.png) | 运行截图:红/绿摆锤、蓝色渐隐轨迹、HUD 能量误差 ~1e-8 |
+运行效果:红/绿双摆锤、蓝色渐隐轨迹拖尾,HUD 实时显示模拟时间与能量误差(前几秒典型 ~1e-8)。
 
 ## 7. 参考资料
 
@@ -212,5 +209,4 @@ clang++ -Wall -Wextra -O2 -Iinclude \
 - [x] 数值算法名称已注明,dt 已写明
 - [x] 编译命令可复制粘贴直接运行
 - [x] 至少一种验证方式(守恒量 / 收敛测试 / 解析解对比,三项均做)
-- [x] 至少一张结果图
 - [x] 没写"详见代码"——文档自包含
