@@ -53,7 +53,7 @@ c4phy/
 │   │   └── Reflection of light in a sphere/  # 球内光线反射（Raylib 可视化）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple harmonic oscillations/  # 简谐振动（相空间可视化）
-│   │   └── double pendulum/               # 双摆（重写中）
+│   │   └── double_pendulum/               # 双摆（RK4 + 轨迹拖尾 + 能量监测）
 │   └── python/project/                 # Python 项目
 │       ├── simple harmonic oscillation/   # 简谐振动可视化
 │       ├── damped oscillation/            # 阻尼振动可视化
@@ -75,9 +75,9 @@ c4phy/
   ```bash
   brew install raylib
   ```
-- **SDL2**（C++ 项目用于可视化）:
+- **SDL2 / SDL2_ttf**（C++ 项目用于可视化）:
   ```bash
-  brew install sdl2
+  brew install sdl2 sdl2_ttf
   ```
 - **Python 3.x** + 科学计算栈:
   ```bash
@@ -108,6 +108,16 @@ gcc -O3 main.c -o main -lm
 cd "project/cpp/simple harmonic oscillations"
 clang++ main.cpp -o main $(pkg-config --cflags --libs sdl2)
 ./main
+```
+
+**C++ 多文件项目（以双摆为例，含物理/渲染分离与 SDL2_ttf 文字渲染）：**
+
+```bash
+cd "project/cpp/double_pendulum"
+clang++ -Wall -Wextra -O2 -Iinclude main.cpp \
+    src/Physics/DoublePendulum.cpp src/Math/Vector.cpp \
+    -o main $(pkg-config --cflags --libs sdl2 SDL2_ttf)
+./main    # Space 暂停 / R 随机重置 / C 清除轨迹
 ```
 
 **Python 项目：**
