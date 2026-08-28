@@ -55,7 +55,7 @@ The search procedure starts with a guessed value for x, substitudes that guess i
 
 The most elementary trial-and-error technique is the *bisection algorithm*.Is is reliable but slow.If you know some intervak in which $f(x)$ changes sign,then bisection algorithm will always converge to the root by finding progressively smaller and smaller intervals within which the zero lies.
 
-The basis of the bisection algorithm is shown in Figure.![截屏2026-05-27 16.31.01](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-27 16.31.01.png)
+The basis of the bisection algorithm is shown in Figure.![截屏2026-05-27 16.31.01](note.assets/截屏2026-05-27 16.31.01.png)
 
 
 
@@ -63,7 +63,7 @@ The basis of the bisection algorithm is shown in Figure.![截屏2026-05-27 16.31
 
 The Newton-Raphson algorithm can find roots of the $f(x)=0$ more quickly than the bisection method.
 
-![截屏2026-05-28 18.47.56](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-28 18.47.56.png)
+![截屏2026-05-28 18.47.56](note.assets/截屏2026-05-28 18.47.56.png)
 
 If a guess is in a region where $f(x)$ is nearly linear, then the convergence is very rapid.
 
@@ -120,7 +120,7 @@ The procedure is repeated, starting at the improved x, until some set level of p
 
 But sometime the Newton-Raphson search will fail.
 
-![截屏2026-05-28 18.59.26](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-28 18.59.26.png)
+![截屏2026-05-28 18.59.26](note.assets/截屏2026-05-28 18.59.26.png)
 
 #### 6.3.1 Search + Backtracking
 
@@ -146,7 +146,7 @@ The problem in both these cases is that the initial guesses were not close enoug
 
 **Problem** The cross section measured for the resonant scattering of neutrons from a nucleus are given in Table. Your problem is to determine values for the cross sections at energy values lying between those in the table.
 
-![截屏2026-05-29 15.09.31](/Users/setsuna/Desktop/c4phy/notes/Trial-and-Error Searching and Data Fitting/note.assets/截屏2026-05-29 15.09.31.png)The simplest is to numerically interpolate bewteen the values of the experimental $f(E_i)$ given in Table.This is direct and easy, but dose not account for there being experimental noise in the data.
+![截屏2026-05-29 15.09.31](note.assets/截屏2026-05-29 15.09.31.png)The simplest is to numerically interpolate bewteen the values of the experimental $f(E_i)$ given in Table.This is direct and easy, but dose not account for there being experimental noise in the data.
 A more appropriate solution is to find the *best fit* of a theoretical function to the data.
 
 We start with what we believe to be the "correct" theoretical description of the data,

@@ -208,7 +208,7 @@ make run        # 即 ./build/double_pendulum
 
 - *Computational Physics* — Landau, Páez, Bordeianu(ODE 数值解章节)
 - 双摆方程推导:myphysicslab.com / 维基百科 "Double pendulum"
-- 本仓库 `project/c/project/double pendulum/`(C + Raylib 前作,半隐式 Euler 版)
+- 本仓库 `project/c/double_pendulum/`(C + Raylib 前作,半隐式 Euler 版)
 
 ---
 

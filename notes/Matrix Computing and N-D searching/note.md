@@ -4,7 +4,7 @@
 
 ### 7.1 Masses on a String and N-D Searching
 
-**Problem** Two masses with weights $(W_1,W_2)=(10,20)$ are connected by three pieces of sting with lengths $(L_1,L_2,L_3)=(3,4,4)$, and hung from a horizontal bar of length $L=8$.Find the angles assumed by the strings and the tensions exerted by the strings.![截屏2026-05-30 15.08.06](/Users/setsuna/Desktop/c4phy/notes/Matrix Computing and N-D searching/Matrix Computing and N-D searching.assets/截屏2026-05-30 15.08.06.png)
+**Problem** Two masses with weights $(W_1,W_2)=(10,20)$ are connected by three pieces of sting with lengths $(L_1,L_2,L_3)=(3,4,4)$, and hung from a horizontal bar of length $L=8$.Find the angles assumed by the strings and the tensions exerted by the strings.![截屏2026-05-30 15.08.06](note.assets/截屏2026-05-30 15.08.06.png)
 
 We start with the geometric constraints that the horizontal length of the structure is L, and that the strings begin and end at the same height
 $$

@@ -71,7 +71,7 @@ int main(){
     }
     fclose(fp);
     // char command[256];
-    // snprintf(command, sizeof(command), "random walk.py");
+    // snprintf(command, sizeof(command), "../../python/random_walk/random_walk.py");
     // int ret = system(command);
 
     // if (ret != 0) {

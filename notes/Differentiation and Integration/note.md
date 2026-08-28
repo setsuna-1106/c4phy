@@ -48,7 +48,7 @@ D_{\mathrm{cd}}\,y(t)
 \overset{\mathrm{def}}{=}
 \frac{y(t+h/2)-y(t-h/2)}{h}.
 $$
-![截屏2026-05-20 12.20.40](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/dai1.png)
+![截屏2026-05-20 12.20.40](note.assets/dai1.png)
 
 We estimate the error in the central-difference algorithm by substituting the Taylor series for y(t + h∕2) and y(t − h∕2) into
 $$
@@ -200,7 +200,7 @@ i=1,\ldots,N.
 $$
 The trapezoid rule takes each integration interval i and constructs a trapezoid of width h in it.This approximates $f(x)$ by a straight line in each interval i,and uses the average height$(f_i+f_{i+1})/2$ as the value for $f$
 
-![截屏2026-05-22 16.44.58](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-22 16.44.58.png)
+![截屏2026-05-22 16.44.58](note.assets/截屏2026-05-22 16.44.58.png)
 
 The area of each such trapezoid is:
 $$
@@ -427,7 +427,7 @@ A
 +
 \cdots .
 $$
-![截屏2026-05-24 16.33.06](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-24 16.33.06.png)
+![截屏2026-05-24 16.33.06](note.assets/截屏2026-05-24 16.33.06.png)
 
 this is Romberg’s **extrapolation**.
 
@@ -447,7 +447,7 @@ In the Gaussian quadrature approach to integration, the N points and weights in 
 
 To obtain this incredible optimization, the points $x_i$ end up having a specific distribution over $[a,b]$.
 
-All the rules indicated in Table are form of Gaussian quadrature following the general form (34)![截屏2026-05-26 18.43.26](/Users/setsuna/Desktop/c4phy/notes/Differentiation and Integration/differentiation and integration.assets/截屏2026-05-26 18.43.26.png)
+All the rules indicated in Table are form of Gaussian quadrature following the general form (34)![截屏2026-05-26 18.43.26](note.assets/截屏2026-05-26 18.43.26.png)
 
 
 

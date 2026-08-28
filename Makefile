@@ -1,11 +1,11 @@
 # ── 顶层构建入口 ──────────────────────────────────────────────
-# 递归调用各子项目自己的 Makefile（项目目录名含空格，故只在 recipe
-# 中以引号路径调用，不把带空格的路径写成 make 的 target/prerequisite）。
+# 递归调用各子项目自己的 Makefile（项目目录名为 snake_case，
+# recipe 中仍以引号包裹路径，保持稳健）。
 #
 # 用法：make / make double-pendulum / make run-double-pendulum / make clean / make help
 
 DP_DIR  := project/cpp/double_pendulum
-SHO_DIR := project/cpp/simple harmonic oscillations
+SHO_DIR := project/cpp/simple_harmonic_oscillation
 
 .DEFAULT_GOAL := all
 

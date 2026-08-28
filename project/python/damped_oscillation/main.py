@@ -1,7 +1,9 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = "/Users/setsuna/Desktop/c4phy/project/c/project/damped oscillation/x-t.csv"
+path = Path(__file__).resolve().parents[2] / "c" / "damped_oscillation" / "x-t.csv"
 data = np.loadtxt(path, delimiter=",")
 
 t = data.T[0]

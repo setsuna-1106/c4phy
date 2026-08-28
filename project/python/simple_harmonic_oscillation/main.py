@@ -1,12 +1,11 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 
-path1 = (
-    "/Users/setsuna/Desktop/c4phy/project/c/project/simple harmonic oscillations/x-v1.csv"
-)
-path2 = (
-    "/Users/setsuna/Desktop/c4phy/project/c/project/simple harmonic oscillations/x-v2.csv"
-)
+c_dir = Path(__file__).resolve().parents[2] / "c" / "simple_harmonic_oscillation"
+path1 = c_dir / "x-v1.csv"
+path2 = c_dir / "x-v2.csv"
 data1 = np.loadtxt(path1, delimiter=",")
 data2 = np.loadtxt(path2, delimiter=",")
 

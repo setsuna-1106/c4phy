@@ -38,31 +38,35 @@ c4phy/
 │   ├── Matrix Computing and N-D searching/  # 矩阵计算与 N 维搜索
 │   ├── Monte Carlo Simulations/        #   蒙特卡洛模拟（随机数生成、随机行走、蛋白质折叠）
 │   ├── Differential Equations and Nonlinear Oscillations/  # 微分方程与非线性振荡
-│   ├── Flourier Analyses/              #   傅里叶分析
+│   ├── Fourier Analyses/               #   傅里叶分析
 │   ├── C_Python_Workflow.md           #   C + Python 计算物理工作流手册
 │   └── Project_Documentation_Template.md #   项目文档通用模板
 │
 ├── project/
-│   ├── c/project/                      # C 语言项目
-│   │   ├── simple harmonic oscillations/  # 简谐振动
-│   │   ├── damped oscillation/            # 阻尼振动
-│   │   ├── double pendulum/               # 双摆（Raylib 实时可视化）
-│   │   ├── random walk/                   # 随机行走（Raylib 可视化，含自回避行走 / 蛋白质折叠）
-│   │   ├── Spontaneous decay/             # 放射性自发衰变模拟
-│   │   ├── ideal gas/                     # 理想气体（Raylib 可视化）
-│   │   └── Reflection of light in a sphere/  # 球内光线反射（Raylib 可视化）
+│   ├── c/                              # C 语言项目
+│   │   ├── simple_harmonic_oscillation/  # 简谐振动
+│   │   ├── damped_oscillation/           # 阻尼振动
+│   │   ├── double_pendulum/              # 双摆（Raylib 实时可视化）
+│   │   ├── random_walk/                  # 随机行走（Raylib 可视化，含自回避行走 / 蛋白质折叠）
+│   │   ├── spontaneous_decay/            # 放射性自发衰变模拟
+│   │   ├── ideal_gas/                    # 理想气体（Raylib 可视化）
+│   │   └── reflection_of_light_in_a_sphere/  # 球内光线反射（Raylib 可视化）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
-│   │   ├── simple harmonic oscillations/  # 简谐振动（相空间可视化）
-│   │   └── double_pendulum/               # 双摆（RK4 + 轨迹拖尾 + 能量监测）
-│   └── python/project/                 # Python 项目
-│       ├── simple harmonic oscillation/   # 简谐振动可视化
-│       ├── damped oscillation/            # 阻尼振动可视化
-│       ├── random walk/                   # 随机行走可视化
-│       ├── spontaneous dacey/             # 自发衰变可视化
-│       └── ideal gas/                     # 理想气体可视化
+│   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
+│   │   └── double_pendulum/              # 双摆（RK4 + 轨迹拖尾 + 能量监测）
+│   └── python/                          # Python 项目
+│       ├── simple_harmonic_oscillation/  # 简谐振动可视化
+│       ├── damped_oscillation/           # 阻尼振动可视化
+│       ├── random_walk/                  # 随机行走可视化
+│       ├── spontaneous_decay/            # 自发衰变可视化
+│       └── ideal_gas/                    # 理想气体可视化
 │
+├── docs/
+│   └── naming_conventions.md            # 项目结构与命名规则
 └── README.md
 ```
+
+> 目录与文件的详细命名规则见 [docs/naming_conventions.md](docs/naming_conventions.md)。
 
 ---
 
@@ -89,7 +93,7 @@ c4phy/
 **C 项目（以双摆为例）：**
 
 ```bash
-cd "project/c/project/double pendulum"
+cd project/c/double_pendulum
 gcc double_pendulum.c -o double_pendulum $(pkg-config --cflags --libs raylib)
 ./double_pendulum
 ```
@@ -97,7 +101,7 @@ gcc double_pendulum.c -o double_pendulum $(pkg-config --cflags --libs raylib)
 **纯数值 C 项目（以阻尼振动为例）：**
 
 ```bash
-cd "project/c/project/damped oscillation"
+cd project/c/damped_oscillation
 gcc -O3 main.c -o main -lm
 ./main
 ```
@@ -116,7 +120,7 @@ make clean                  # 清理全部 build/
 **Python 项目：**
 
 ```bash
-python "project/python/project/random walk/random walk.py"
+python project/python/random_walk/random_walk.py
 ```
 
 ### 笔记中的代码

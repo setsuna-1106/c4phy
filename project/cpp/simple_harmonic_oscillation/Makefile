@@ -7,7 +7,7 @@ LDLIBS    := $(shell pkg-config --libs sdl2)
 SRCS   := main.cpp
 OBJS   := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS   := $(OBJS:.o=.d)
-TARGET := $(BUILD_DIR)/simple_harmonic_oscillations
+TARGET := $(BUILD_DIR)/simple_harmonic_oscillation
 
 all: $(TARGET)
 

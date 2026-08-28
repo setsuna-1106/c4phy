@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from pathlib import Path
+
 # from scipy.optimize import curve_fit
 
 # # ── load data ────────────────────────────────────────────────
 # data = np.loadtxt(
-#     "/Users/setsuna/Desktop/c4phy/project/c/project/Spontaneous decay/number_of_particles.csv",
+#     Path(__file__).resolve().parents[2] / "c" / "spontaneous_decay" / "number_of_particles.csv",
 #     delimiter=",",
 # )
 # t = data[:, 0]
@@ -53,7 +55,7 @@ import matplotlib.pyplot as plt
 # plt.savefig("spontaneous_decay.png", dpi=150)
 
 
-path="/Users/setsuna/Desktop/c4phy/project/c/project/Spontaneous decay/number_of_particles.csv"
+path = Path(__file__).resolve().parents[2] / "c" / "spontaneous_decay" / "number_of_particles.csv"
 data = np.loadtxt(path,delimiter=",");
 
 x=data.T[0]
@@ -64,7 +66,7 @@ y1=np.log10(y)
 fig, ax = plt.subplots(figsize=(6, 4))
 plt.plot(x, y1)
 
-fig.suptitle("sponaneous dacey")
+fig.suptitle("Spontaneous Decay")
 plt.xlabel("t")
 plt.ylabel("logN")
 

@@ -6,7 +6,7 @@
 
 Figure showsa a mass m attached to a spring that exerts a restoring force toword the orgin, as well as a hand that exerts a time-dependent external force on the mass. The restoring force exerted by the spring is nonlinear.
 
-![截屏2026-06-01 21.05.21](/Users/setsuna/Desktop/c4phy/notes/Differential Equations and Nonlinear Oscillations/note.assets/截屏2026-06-01 21.05.21.png)
+![截屏2026-06-01 21.05.21](note.assets/截屏2026-06-01 21.05.21.png)
 
 **Problem** Solve for the motion of the mass as a function of the time for an arbitrary restoring force. You may assume the motion is constrained to one dimension.
 
@@ -40,7 +40,7 @@ $$
 
 Where we have omitted the time-dependent external force. Equation (4) is the second-order ordinary differential equation (ODE) we need to solve. If $\alpha x<<1$, we should have essentially harmonic, but as $x\rightarrow1/\alpha$ the anharmonic effects should increase.
 
-We can understand the basic physics of this model by looking at her curves on the left in Figure![截屏2026-06-01 23.52.42](/Users/setsuna/Desktop/c4phy/notes/Differential Equations and Nonlinear Oscillations/note.assets/截屏2026-06-01 23.52.42.png)
+We can understand the basic physics of this model by looking at her curves on the left in Figure![截屏2026-06-01 23.52.42](note.assets/截屏2026-06-01 23.52.42.png)
 
 As long as $x<1/\alpha$, there will be a restoring force and the motion will be periodic (repeated exactly and indefintely in time), though it may not be harmonic.
 
@@ -138,7 +138,7 @@ to this standard form.
 
 ### 8.4 ODE Algorithms
 
-The classic way to solve an ODE is shown in Figure. One starts with the known initial value of the dependent variable, $y_0=0(t=0)$, and then uses the derivative function $f(t,y)$ to advanc the initial value one small step $h$ forward in time to produce $y(t=h)=y_1$. Once you can do that, you can solve the ODE for all t values by just continuing to step to larger times, one small h at a time.![截屏2026-06-03 17.50.34](/Users/setsuna/Desktop/c4phy/notes/Differential Equations and Nonlinear Oscillations/note.assets/截屏2026-06-03 17.50.34.png)
+The classic way to solve an ODE is shown in Figure. One starts with the known initial value of the dependent variable, $y_0=0(t=0)$, and then uses the derivative function $f(t,y)$ to advanc the initial value one small step $h$ forward in time to produce $y(t=h)=y_1$. Once you can do that, you can solve the ODE for all t values by just continuing to step to larger times, one small h at a time.![截屏2026-06-03 17.50.34](note.assets/截屏2026-06-03 17.50.34.png)
 
 Error is always a concern when integrating differential equations because derivatives require small differences, and small differences are prone to subtractive cancellations and round-off error accumulation. 
 
@@ -164,7 +164,7 @@ $$
 
 We know from our discussion of differentiation that the error in the forward-difference algorithm is $𝒪(h^2)$, and so then this too is the error in Euler’s rule.
 
-![截屏2026-06-03 18.00.36](/Users/setsuna/Desktop/c4phy/notes/Differential Equations and Nonlinear Oscillations/note.assets/截屏2026-06-03 18.00.36.png)
+![截屏2026-06-03 18.00.36](note.assets/截屏2026-06-03 18.00.36.png)
 
 To indicate the aimplicity of this algorithm, we apply it to our oscillator problem for the first time step:
 $$

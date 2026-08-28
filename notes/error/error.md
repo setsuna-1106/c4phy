@@ -60,7 +60,7 @@ A classic numerical problem is the summation of a series to evaluate a function.
 
 One approach to decide when to stop summing would be to stop summing when the next term is smaller than the percision desired.
 
-![截屏2026-05-10 15.33.42](/Users/setsuna/Desktop/c4phy/notes/error/error assert/error1.png)
+![截屏2026-05-10 15.33.42](error_assert/error1.png)
 
 But there are two main problem of this classic algorithm.
 On the one hand, both (2n − 1)! and $x^{2n−1}$ can individually get very large and thereby cause overflows, despite the fact that their quotient may be small. On the other hand, powers and factorials are very expensive (time-consuming) to evaluate on the computer. 
