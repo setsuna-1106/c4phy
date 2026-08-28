@@ -1,5 +1,7 @@
 // 双摆模拟 SDL2 可视化
-// 编译:
+// 编译 & 运行(make,产物在 build/):
+//   make && make run
+// 等价手动编译:
 //   clang++ -Wall -Wextra -O2 -Iinclude main.cpp src/Physics/DoublePendulum.cpp \
 //       src/Math/Vector.cpp -o main $(pkg-config --cflags --libs sdl2 SDL2_ttf)
 

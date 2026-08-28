@@ -102,23 +102,16 @@ gcc -O3 main.c -o main -lm
 ./main
 ```
 
-**C++ 项目（SDL2 可视化，以简谐振动为例）：**
+**C++ 项目（Make 统一管理，在仓库根目录执行，产物输出到各项目 `build/`）：**
 
 ```bash
-cd "project/cpp/simple harmonic oscillations"
-clang++ main.cpp -o main $(pkg-config --cflags --libs sdl2)
-./main
+make                        # 一键编译全部 C++ 项目
+make run-double-pendulum    # 编译并运行双摆: Space 暂停 / R 随机重置 / C 清除轨迹
+make run-sho                # 编译并运行简谐振动
+make clean                  # 清理全部 build/
 ```
 
-**C++ 多文件项目（以双摆为例，含物理/渲染分离与 SDL2_ttf 文字渲染）：**
-
-```bash
-cd "project/cpp/double_pendulum"
-clang++ -Wall -Wextra -O2 -Iinclude main.cpp \
-    src/Physics/DoublePendulum.cpp src/Math/Vector.cpp \
-    -o main $(pkg-config --cflags --libs sdl2 SDL2_ttf)
-./main    # Space 暂停 / R 随机重置 / C 清除轨迹
-```
+也可进入单个项目目录（如 `project/cpp/double_pendulum`）执行 `make`、`make run`、`make clean`。
 
 **Python 项目：**
 

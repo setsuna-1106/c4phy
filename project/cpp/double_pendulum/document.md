@@ -109,6 +109,7 @@ y  = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
 ```
 double_pendulum/
+├── Makefile                        # make / make run / make clean(产物进 build/)
 ├── main.cpp                        # SDL 渲染 + 主循环(Trail / SdlApp)
 ├── include/
 │   ├── Math/Vector.h               # vector2D 二维向量类
@@ -153,8 +154,16 @@ double_pendulum/
 
 ### 编译
 
+项目自带 Makefile(增量编译、自动头文件依赖,产物输出到 `build/`):
+
 ```bash
 cd "project/cpp/double_pendulum"
+make            # 也可在仓库根目录执行: make double-pendulum
+```
+
+等价的手动编译命令(仅供了解 Makefile 在做什么):
+
+```bash
 clang++ -Wall -Wextra -O2 -Iinclude \
     main.cpp src/Physics/DoublePendulum.cpp src/Math/Vector.cpp \
     -o main $(pkg-config --cflags --libs sdl2 SDL2_ttf)
@@ -163,7 +172,7 @@ clang++ -Wall -Wextra -O2 -Iinclude \
 ### 运行
 
 ```bash
-./main
+make run        # 即 ./build/double_pendulum
 ```
 
 | 按键 | 功能 |

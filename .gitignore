@@ -31,6 +31,8 @@ Thumbs.db
 
 temp/
 website/
+# agent
 AGENTS.md
 .hermes
 .zcode
+.mimosa
