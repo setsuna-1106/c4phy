@@ -40,6 +40,7 @@ c4phy/
 │   ├── Differential Equations and Nonlinear Oscillations/  # 微分方程与非线性振荡
 │   ├── Fourier Analyses/               #   傅里叶分析
 │   ├── C_Python_Workflow.md           #   C + Python 计算物理工作流手册
+│   ├── Cpp_Python_Workflow.md         #   C++ + Python 计算物理工作流手册
 │   └── Project_Documentation_Template.md #   项目文档通用模板
 │
 ├── project/
@@ -50,7 +51,8 @@ c4phy/
 │   │   ├── random_walk/                  # 随机行走（Raylib 可视化，含自回避行走 / 蛋白质折叠）
 │   │   ├── spontaneous_decay/            # 放射性自发衰变模拟
 │   │   ├── ideal_gas/                    # 理想气体（Raylib 可视化）
-│   │   └── reflection_of_light_in_a_sphere/  # 球内光线反射（Raylib 可视化）
+│   │   ├── reflection_of_light_in_a_sphere/  # 球内光线反射（Raylib 可视化）
+│   │   └── perturbed_damped_pendulum/    # 受扰阻尼摆（RK4 + Raylib + CSV 输出）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
 │   │   └── double_pendulum/              # 双摆（RK4 + 轨迹拖尾 + 能量监测）
@@ -59,7 +61,8 @@ c4phy/
 │       ├── damped_oscillation/           # 阻尼振动可视化
 │       ├── random_walk/                  # 随机行走可视化
 │       ├── spontaneous_decay/            # 自发衰变可视化
-│       └── ideal_gas/                    # 理想气体可视化
+│       ├── ideal_gas/                    # 理想气体可视化
+│       └── perturbed_damped_pendulum/    # 受扰阻尼摆可视化
 │
 ├── docs/
 │   └── naming_conventions.md            # 项目结构与命名规则
@@ -67,6 +70,7 @@ c4phy/
 ```
 
 > 目录与文件的详细命名规则见 [docs/naming_conventions.md](docs/naming_conventions.md)。
+> 每个项目目录内都有自己的 Makefile，顶层 `Makefile` 统一调度（见「编译 & 运行」）。
 
 ---
 
@@ -88,39 +92,27 @@ c4phy/
   pip install numpy matplotlib
   ```
 
-### 编译 & 运行示例
+### 编译 & 运行
 
-**C 项目（以双摆为例）：**
+全部项目（C / C++ / Python）由 Make 统一管理，在仓库根目录执行：
 
 ```bash
-cd project/c/double_pendulum
-gcc double_pendulum.c -o double_pendulum $(pkg-config --cflags --libs raylib)
-./double_pendulum
+make                            # 构建全部项目（C/C++ 编译，Python 语法检查）
+make run-c-double-pendulum      # 构建并运行 C 双摆（Raylib 窗口）
+make run-cpp-double-pendulum    # 构建并运行 C++ 双摆: Space 暂停 / R 随机重置 / C 清除轨迹
+make run-python-ideal-gas       # 运行 Python 可视化
+make help                       # 查看全部已注册项目
+make clean                      # 清理全部 build/ 与缓存
 ```
 
-**纯数值 C 项目（以阻尼振动为例）：**
+目标命名 `<语言>-<项目名>`（项目名中的下划线写作连字符），也可用 `make c` /
+`make cpp` / `make python` 只构建某一语言，或进入单个项目目录
+（如 `project/cpp/double_pendulum`）执行 `make`、`make run`、`make clean`。
+
+**Python 项目依赖对应 C 项目写出的 CSV 数据时，先跑 C 再跑 Python**，例如：
 
 ```bash
-cd project/c/damped_oscillation
-gcc -O3 main.c -o main -lm
-./main
-```
-
-**C++ 项目（Make 统一管理，在仓库根目录执行，产物输出到各项目 `build/`）：**
-
-```bash
-make                        # 一键编译全部 C++ 项目
-make run-double-pendulum    # 编译并运行双摆: Space 暂停 / R 随机重置 / C 清除轨迹
-make run-sho                # 编译并运行简谐振动
-make clean                  # 清理全部 build/
-```
-
-也可进入单个项目目录（如 `project/cpp/double_pendulum`）执行 `make`、`make run`、`make clean`。
-
-**Python 项目：**
-
-```bash
-python project/python/random_walk/random_walk.py
+make run-c-perturbed-damped-pendulum && make run-python-perturbed-damped-pendulum
 ```
 
 ### 笔记中的代码
@@ -136,9 +128,11 @@ gcc ex1.c -o ex1 -lm && ./ex1
 
 ## 工作流
 
-本仓库遵循 **C 做数值核心 + Python 做可视化** 的工作流。详细策略参考：
+本仓库遵循 **C / C++ 做数值核心 + Python 做可视化** 的工作流。详细策略参考：
 
 [📖 C + Python 计算物理工作流手册](notes/C_Python_Workflow.md)
+
+[📖 C++ + Python 计算物理工作流手册](notes/Cpp_Python_Workflow.md)
 
 核心思路：
 

@@ -77,9 +77,13 @@ c4phy/
 
 ## 构建产物
 
-- C++ 项目产物统一输出到各项目的 `build/`，已被 `.gitignore` 忽略，不提交。
-- 顶层 `Makefile` 递归调用各子项目 Makefile；新增 C++ 项目时在根 `Makefile`
-  注册一个 snake_case 的 target（如 `make run-double-pendulum`）。
+- C / C++ 项目产物统一输出到各项目的 `build/`，已被 `.gitignore` 忽略，不提交。
+- **每个项目目录内都有自己的 Makefile**：C / C++ 项目负责编译（目标 `all` /
+  `run` / `clean`）；Python 项目提供语法检查（`all`）、运行（`run`）与
+  缓存清理（`clean`）。
+- 顶层 `Makefile` 递归调用各子项目 Makefile，目标命名 `<语言>-<项目名>`
+  （项目名中的下划线写作连字符，如 `make run-cpp-double-pendulum`）。
+  新增项目 = 建目录 + 项目 Makefile + 在根 `Makefile` 对应语言列表注册一行。
 - 数据文件（`*.csv`）同样不提交。
 
 ---
@@ -91,7 +95,9 @@ c4phy/
 1. 目录：`project/<语言>/<snake_case 项目名>/`
 2. 入口：`main.c` / `main.cpp` / `main.py`
 3. （可选）`document.md` 记录物理模型、数值方法与运行方式
-4. （C++ 多文件）`include/` + `src/` + 项目内 `Makefile`，并在根 `Makefile` 注册
+4. 项目内 `Makefile`（C / C++：编译进 `build/`；Python：`all` / `run` / `clean`），
+   并在根 `Makefile` 对应语言列表注册一行
+5. （C++ 多文件）`include/` + `src/` 布局，头文件按类名 PascalCase
 
 新建笔记：
 

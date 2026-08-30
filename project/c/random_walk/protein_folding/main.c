@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 #include <raylib.h>
 
 #define WIDTH 101
@@ -21,7 +22,7 @@ int map[WIDTH][HEIGHT];
 
 void init(){
     for(int i=0;i<WIDTH;i++){
-        for(int j=0;i<HEIGHT;j++){
+        for(int j=0;j<HEIGHT;j++){
             map[i][j]=0;
         }
     }
