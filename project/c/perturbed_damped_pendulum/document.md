@@ -1,6 +1,6 @@
 # 阻尼受迫单摆
 
-使用 C 语言数值求解受正弦驱动力作用的阻尼单摆，输出角位移的时间序列与相空间轨迹，并与小角度线性理论的解析稳态解对比验证。
+使用 C 语言数值求解受正弦驱动力作用的阻尼单摆，在 Raylib 窗口中实时演示摆动动画、$\theta$-$t$ 时间序列与 $\theta$-$\omega$ 相图，同时输出数据文件，与小角度线性理论的解析稳态解对比验证。
 
 ---
 
@@ -107,7 +107,7 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
 | 文件 | 职责 |
 |------|------|
-| `main.c` | 物理参数、右端函数、随机初始化、主循环与 CSV 输出 |
+| `main.c` | 物理参数、右端函数、随机初始化、主循环、CSV 输出与 Raylib 实时可视化 |
 | `rk4.c` / `rk4.h` | 通用的二维一阶 ODE 组四阶 Runge-Kutta 步进模块（与具体物理无关，可复用） |
 
 ### 核心函数
@@ -115,14 +115,18 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 | 函数 | 签名 | 职责 |
 |------|------|------|
 | `deriv()` | `void deriv(double t, double y[2], double dydt[2])` | 受迫阻尼摆的右端函数 |
-| `init()` | `void init(void)` | 随机生成初始 $\theta \in [-\pi,\pi)$、$\omega \in [-5,5)$ |
+| `init()` | `void init(void)` | 随机生成初始 $\theta \in [-\pi,\pi)$、$\omega \in [-5,5)$，并清空可视化轨迹 |
 | `step()` | `void step(double t1)` | 调用 `rk4()` 推进一步，并把 $\theta$ 卷绕到 $(-\pi, \pi]$ |
 | `rk4()` | `void rk4(deriv2 f, double y[2], double t, double dt)` | 经典 RK4 单步，就地更新 `y` |
+| `push_trail()` | `void push_trail(void)` | 把当前 $(\theta,\omega)$ 追加到相图轨迹缓冲（超容量丢弃最老点） |
+| `record_trace()` | `void record_trace(void)` | 把当前 $(t,\theta)$ 追加到时间序列缓冲（超容量丢弃最老样本） |
+| `phase_pos()` / `trace_pos()` | `Vector2 phase_pos(double th, double om)` 等 | 物理坐标到相图 / 时间序列面板像素的映射 |
+| `draw_pendulum()` / `draw_phase()` / `draw_trace()` | `void draw_xxx(void)` | 绘制左侧摆动画、右上相图、右下时间序列 |
 
 ### 输入 / 输出
 
 - **输入**: 无。所有参数以宏常量硬编码，初始条件随机生成。
-- **输出**: `theta-t.csv`（表头 `t,theta`，时间序列）与 `theta-omega.csv`（表头 `theta,omega`，相空间轨迹），由 `project/python/perturbed_damped_pendulum/main.py` 读取绘图。
+- **输出**: `theta-t.csv`（表头 `t,theta`，时间序列）与 `theta-omega.csv`（表头 `theta,omega`，相空间轨迹），由 `project/python/perturbed_damped_pendulum/main.py` 读取绘图。程序运行时同时实时可视化；前 `N` 步（$t \le 100$）的数据写入 CSV，之后动画继续、输出停止。
 
 ### 关键常量
 
@@ -134,26 +138,47 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 | `F` | 1 | 驱动力幅值 [rad/s²] |
 | `dt` | 1e-2 | 时间步长 [s] |
 | `N` | 10000 | 总步数 |
+| `WIDTH` / `HEIGHT` | 960 / 600 | 窗口尺寸 [px] |
+| `FPS` | 60 | 目标帧率 |
+| `SPEED` | 4 | 每帧推进的物理步数（约 2.4 倍实时） |
+| `ROD` | 180 | 摆长像素长度 [px] |
+| `PHASE_TRAIL` | 3000 | 相图轨迹长度 [帧] |
+| `TRACE_N` / `TRACE_EVERY` | 1200 / 4 | θ-t 采样数 / 每 4 步采 1 个样本（窗口 48 s） |
 
 ## 5. 编译 & 运行
 
 ### 依赖
 
 - GCC / Clang
-- Python 3.x + numpy + matplotlib（可选，用于绘图）
+- Raylib（实时可视化）:
+  ```bash
+  brew install raylib
+  ```
+- Python 3.x + numpy + matplotlib（可选，用于复绘 CSV）
 
 ### 编译
 
 ```bash
-# 纯数值 C 项目
-gcc -O3 main.c rk4.c -o main -lm
+# 或直接 make（推荐）
+gcc -O2 main.c rk4.c -o main $(pkg-config --cflags --libs raylib)
 ```
 
 ### 运行
 
 ```bash
-./main      # 在项目目录下生成 theta-t.csv 与 theta-omega.csv
+./main      # 打开实时可视化窗口，同时在项目目录下生成 theta-t.csv 与 theta-omega.csv
 ```
+
+### 可视化说明
+
+| 区域 / 按键 | 内容 |
+|-------------|------|
+| 左侧 | 摆的实时动画，摆球处的水平短线指示驱动力矩的方向与强弱 |
+| 右上 | $\theta$-$\omega$ 相图，轨迹渐隐（越新越亮），红色点为当前状态 |
+| 右下 | 最近 48 s 的 $\theta$-$t$ 时间序列，红色点为当前值 |
+| `Space` | 暂停 / 继续 |
+| `R` | 随机重置初始条件并清空轨迹 |
+| `C` | 仅清空轨迹 |
 
 绘图（可选）：
 
