@@ -13,6 +13,7 @@ OBJS = main.o rk4_2d.o
 
 all: $(TARGET)
 
+# TODO(P2): 链接行应加 -lm (macOS 恰好不需要, Linux 上会因 exp/fabs 链接失败)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
