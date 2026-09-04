@@ -158,7 +158,7 @@ double_pendulum/
 
 ```bash
 cd "project/cpp/double_pendulum"
-make            # 也可在仓库根目录执行: make double-pendulum
+make            # 也可在仓库根目录执行: make cpp-double-pendulum
 ```
 
 等价的手动编译命令(仅供了解 Makefile 在做什么):

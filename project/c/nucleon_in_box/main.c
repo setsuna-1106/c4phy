@@ -9,7 +9,7 @@
 #define V0 83
 
 #define h 1e-3
-#define tolerance 1
+#define tolerance 1e-1
 
 double k;// eigenvalue
 double xm=1.1*a;
@@ -22,16 +22,16 @@ double potential_func(double x){
 
 void deriv(double t,double *y,double *dydt){
     dydt[0]=y[1];
-    dydt[1]=k*k-2*m/h/h*potential_func(t);
+    dydt[1] = (k*k + 2.0*m/(hbar*hbar)*potential_func(t)) * y[0];
 }
 
 double mis_func(){
     double x1=-x0,x2=x0;
     double y1[2],y2[2];
-    y1[0]=exp(x1);
+    y1[0]=exp(k*x1);
     y1[1]=y1[0]*k;
-    y2[0]=exp(x2);
-    y2[1]=y2[0]*k;
+    y2[0]=exp(k*x2);
+    y2[1]=-y2[0]*k;
     while(x1<xm){
         rk4_2d(deriv,y1,x1,h);
         x1+=h;

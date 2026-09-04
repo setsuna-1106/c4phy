@@ -598,10 +598,6 @@ make -j$(sysctl -n hw.ncpu 2>/dev/null || nproc) && python3 scripts/plot.py
 | Python 调 C++ 类 | **pybind11** | 需 C++ 编译器 |
 | 大量实时交互 | **PyQtGraph** / **ImPlot** | 延迟 <10ms |
 
-### 流程图
-
-![工作流流程图](c_python_workflow.png)
-
 ---
 
 ## 附录：常用命令速查

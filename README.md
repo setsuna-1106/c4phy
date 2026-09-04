@@ -39,12 +39,15 @@ c4phy/
 │   ├── Monte Carlo Simulations/        #   蒙特卡洛模拟（随机数生成、随机行走、蛋白质折叠）
 │   ├── Differential Equations and Nonlinear Oscillations/  # 微分方程与非线性振荡
 │   ├── Fourier Analyses/               #   傅里叶分析
+│   ├── Quantum Computing/              #   量子计算（Dirac 记号）
+│   ├── ODE Applications/               #   ODE 应用（束缚态本征值：盒中核子）
 │   ├── C_Python_Workflow.md           #   C + Python 计算物理工作流手册
 │   ├── Cpp_Python_Workflow.md         #   C++ + Python 计算物理工作流手册
 │   └── Project_Documentation_Template.md #   项目文档通用模板
 │
 ├── project/
 │   ├── c/                              # C 语言项目
+│   │   ├── common/                     # 跨项目共享源码（RK4 1D/2D 求解器）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动
 │   │   ├── damped_oscillation/           # 阻尼振动
 │   │   ├── double_pendulum/              # 双摆（Raylib 实时可视化）
@@ -52,7 +55,8 @@ c4phy/
 │   │   ├── spontaneous_decay/            # 放射性自发衰变模拟
 │   │   ├── ideal_gas/                    # 理想气体（Raylib 可视化）
 │   │   ├── reflection_of_light_in_a_sphere/  # 球内光线反射（Raylib 可视化）
-│   │   └── perturbed_damped_pendulum/    # 受扰阻尼摆（RK4 + Raylib + CSV 输出）
+│   │   ├── perturbed_damped_pendulum/    # 受扰阻尼摆（RK4 + Raylib + CSV 输出）
+│   │   └── nucleon_in_box/               # 盒中核子（有限深势阱束缚态本征值搜索，开发中，暂未接入顶层 Makefile）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
 │   │   └── double_pendulum/              # 双摆（RK4 + 轨迹拖尾 + 能量监测）
@@ -150,12 +154,14 @@ gcc ex1.c -o ex1 -lm && ./ex1
 |------|:----:|:------:|:------:|
 | 误差分析（减法抵消、舍入误差、随机行走误差模型） | ✅ | ✅ | — |
 | 数值微分（向前/向后/中心差分） | ✅ | ✅ | ✅ |
-| 数值积分（梯形法、辛普森法） | ✅ | ✅ | — |
+| 数值积分（梯形法、辛普森法） | ✅ | ✅ | ✅ |
 | 试错搜索与数据拟合（二分法、牛顿法、拉格朗日插值） | ✅ | ✅ | — |
 | 矩阵计算与 N 维搜索 | ✅ | — | — |
 | 蒙特卡洛模拟（随机数、随机行走、蛋白质折叠） | ✅ | ✅ | — |
-| 傅里叶分析 | ✅ | — | — |
+| 傅里叶分析 | ✅ | ✅ | — |
 | 微分方程与非线性振荡 | ✅ | — | — |
+| 量子计算（Dirac 记号） | ✅ | — | — |
+| ODE 应用（束缚态本征值：盒中核子） | ✅ | ✅ | — |
 | 简谐振动 | — | ✅ | ✅ |
 |阻尼振动|-|✅|✅|
 | 双摆 | ✅ | ✅ | ✅ |
@@ -163,6 +169,7 @@ gcc ex1.c -o ex1 -lm && ./ex1
 | 自发衰变 | — | ✅ | ✅ |
 | 理想气体 | — | ✅ | ✅ |
 | 球内光线反射 | — | ✅ | ✅ |
+| 受扰阻尼摆 | — | ✅ | ✅ |
 
 ---
 

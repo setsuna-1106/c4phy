@@ -130,17 +130,14 @@ $$
 ### 编译
 
 ```bash
-# Raylib 项目
-gcc main.c -o main $(pkg-config --cflags --libs raylib) -lm
-
-# 纯数值 C 项目
-gcc -O3 main.c -o main -lm
+# 纯数值 C 项目（或直接 make / make run）
+gcc -O2 simple_harmonic_oscillation.c -o simple_harmonic_oscillation -lm
 ```
 
 ### 运行
 
 ```bash
-./main
+./simple_harmonic_oscillation
 ```
 
 ---
