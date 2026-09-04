@@ -9,7 +9,7 @@
 #define V0 83
 
 #define h 1e-3
-#define tolerance 1e-5
+#define tolerance 1
 
 double k;// eigenvalue
 double xm=1.1*a;
@@ -47,9 +47,9 @@ double mis_func(){
 }
 
 int main(){
-    k=1e-4;
+    k=1;
     while(mis_func()>tolerance){
-        k+=1e-5;
+        k+=1e-1;
     }
     printf("%.2lf",k);
     return 0;
