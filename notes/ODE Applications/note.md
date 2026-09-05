@@ -37,3 +37,26 @@ $$
 
 ## 13.2 Algorithm: ODE Solver + Search
 
+shooting algorithm
+
+## 13.3 Classical Chaotic Scattering
+
+One might expect that the classical scttering of a projectile from a passive target will vary smoothly. Yet experiments have found that when a projectile undergose multiple internal scatterings, its final trajectory appears unrelated to its initial one.
+
+**Problem** Determine if multiple internal scatterings may lead to such a chaotic situation.
+
+#### 13.3.1 Model and Theory
+
+Our model for scattering from the bumpers in pinball machines is a point particle sscattering from the stationary 2D potential
+$$
+V(x,y)=x^2y^2e^{-(x^2+y^2)}
+$$
+The theeory for this problem is classical dynamics. Visualize a scattering experiment in which a projectile starts out at ($x=b,y=-\infin$) with velocity v. The distance b is called the *impact parameter*. After scattering and moving out to $y=+\infin$, the projectile is observed at the scattering angle $\theta$
+
+Once we have that we can calculate the differerntial cross section:
+$$
+\sigma(\theta) = \left|\frac{d\theta}{db}\right| \frac{b}{\sin\theta(b)}
+$$
+As your computation should show, there are parameter values for which $d\theta/db$ gets very large, or even discontinuous, and this leads to chaotic cross sections.
+
+#### 13.3.2 Implementation
