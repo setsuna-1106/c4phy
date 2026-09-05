@@ -28,7 +28,7 @@ double mis_func(double ka){
     k=ka;
     double x1=-x0,x2=x0;
     double y1[2],y2[2];
-    y1[0]=exp(k*x0);
+    y1[0]=exp(-k*x0);
     y1[1]=y1[0]*k;
     y2[0]=exp(-k*x0);
     y2[1]=-y2[0]*k;
