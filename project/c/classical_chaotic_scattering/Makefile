@@ -18,9 +18,6 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-main.o: main.c $(COMMON_DIR)/rk4_2d.h
-rk4_2d.o: rk4_2d.c $(COMMON_DIR)/rk4_2d.h
-
 # -MMD -MP 自动生成头文件依赖（.d 文件），改头文件也会触发重编
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
