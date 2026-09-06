@@ -3,13 +3,10 @@
 #include "../common/rk4_2d.h"
 
 #define h 1e-5
+#define y0 20
 
 double t;
 
-/* TODO(P2): 输出角度应改用 atan2(x_[1], y_[1]) 直接给出散射角 theta,
- *   而不是只打印 tan 值; printf 末尾补换行, main 补 return */
-/* TODO(P1): 核心缺口 —— 没有碰撞参数 b 扫描: 需循环多个 b (如 0~3 几百个点)
- *   记录 theta(b) 并写出数据文件, 才能看到 dtheta/db 的跳变 (混沌散射) */
 /* TODO(P1): theta(b) 得到后计算微分截面 sigma(theta) = |dtheta/db| * b/sin(theta)
  *   (见笔记 13.3 节), 目前完全未实现 */
 /* TODO(P3): 积分区间 y=±20 与固定步长 h=1e-5 可接受, 但可考虑靠近势阱区用自适应步长 */
@@ -44,15 +41,23 @@ void step(double *y,double dt){
     t+=dt;
 }
 
-void init(){
+void init(double *p,double x,double xv,double y,double yv){
     t=0;
-
+    p[0]=x;
+    p[1]=xv;
+    p[2]=y;
+    p[3]=yv;
 }
 
 int main(){
-    init();
-    while(y_[0]<=20){
-        step(h);
+    double p[4];
+    FILE *fp=fopen("b-theta.csv","w");
+    for(int i=1;i<=1000;i++){
+        double x0=(double)i/1000*2;
+        init(p,x0,0,-y0,2);
+        while(p[2]<=y0) step(p,h);
+        double theta=atan2(p[1],p[3]);
+        fprintf(fp,"%lf,%lf\n",x0,theta);
     }
-    printf("the tan is %lf",x_[1]/y_[1]);
+    return 0;
 }
