@@ -1,21 +1,33 @@
-CC=gcc
-CFLAGS = -Wall -Wextra -O2
-RAYLIB_CFLAGS = $(shell pkg-config --cflags raylib)
-RAYLIB_LIBS = $(shell pkg-config --libs raylib)
-TARGET=main
+CC        ?= clang
+BUILD_DIR := build
+CFLAGS    := -Wall -Wextra -O2 -g
+CFLAGS    += $(shell pkg-config --cflags raylib)
+LDLIBS    := $(shell pkg-config --libs raylib) -lm
 
-all:main
+SRCS   := main.c rk4.c
+OBJS   := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
+DEPS   := $(OBJS:.o=.d)
+TARGET := $(BUILD_DIR)/perturbed_damped_pendulum
 
-main:main.o rk4.o
-	$(CC) $(CFLAGS) main.o rk4.o -o $(TARGET) $(RAYLIB_LIBS)
+all: $(TARGET)
 
-%.o:%.c
-	$(CC) $(CFLAGS) $(RAYLIB_CFLAGS) -c $< -o $@
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-run:main
-	./main
+main.o: main.c rk4.h
+rk4.o: rk4.c rk4.h
+
+# -MMD -MP 自动生成头文件依赖（.d 文件），改头文件也会触发重编
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+-include $(DEPS)
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -f *.o main
+	rm -rf $(BUILD_DIR)
 
-.PHONY:all main run clean
+.PHONY: all run clean
