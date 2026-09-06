@@ -4,9 +4,6 @@
 
 #define h 1e-5
 
-/* TODO(P1): 重构积分器 —— x/y 耦合却拆成两次独立 rk4_2d + 全局变量传态, 脆弱且难扩展;
- *   应合并为 4 个一阶方程 (x, vx, y, vy) 单次积分, 届时可删除全部全局变量 */
-double x_[2],y_[2];
 double t;
 
 /* TODO(P2): 输出角度应改用 atan2(x_[1], y_[1]) 直接给出散射角 theta,
@@ -17,27 +14,39 @@ double t;
  *   (见笔记 13.3 节), 目前完全未实现 */
 /* TODO(P3): 积分区间 y=±20 与固定步长 h=1e-5 可接受, 但可考虑靠近势阱区用自适应步长 */
 
-void derivx(double t,double *x,double *dxdt){
-    dxdt[0]=x_[1];
-    dxdt[1]=-2*y_[0]*y_[0]*x_[0]*(1-x_[0]*x_[0])*exp(-x_[0]*x_[0]-y_[0]*y_[0]);
-}
-void derivy(double t,double *y,double *dydt){
-    dydt[0]=y_[1];
-    dydt[1]=-2*x_[0]*x_[0]*y_[0]*(1-y_[0]*y_[0])*exp(-x_[0]*x_[0]-y_[0]*y_[0]);
+typedef void (*deriv4)(double t, double y[4], double dydt[4]);
+
+void rk4_4d(deriv4 f, double y[4], double t, double dt) {
+    double k1[4], k2[4], k3[4], k4[4], yt[4];
+    int i;
+
+    f(t, y, k1);
+    for (i = 0; i < 4; i++) yt[i] = y[i] + 0.5 * dt * k1[i];
+    f(t + 0.5 * dt, yt, k2);
+    for (i = 0; i < 4; i++) yt[i] = y[i] + 0.5 * dt * k2[i];
+    f(t + 0.5 * dt, yt, k3);
+    for (i = 0; i < 4; i++) yt[i] = y[i] + dt * k3[i];
+    f(t + dt, yt, k4);
+
+    for (i = 0; i < 4; i++)
+        y[i] += dt / 6.0 * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
 }
 
-void step(double dt){
-    rk4_2d(derivx,x_,t,dt);
-    rk4_2d(derivy,y_,t,dt);
+void deriv(double t,double *y,double *dydt){
+    dydt[0]=y[1];
+    dydt[1]=-2*y[2]*y[2]*y[0]*(1-y[0]*y[0])*exp(-y[0]*y[0]-y[2]*y[2]);
+    dydt[2]=y[3];
+    dydt[3]=-2*y[0]*y[0]*y[2]*(1-y[2]*y[2])*exp(-y[0]*y[0]-y[2]*y[2]);
+}
+
+void step(double *y,double dt){
+    rk4_4d(deriv,y,t,dt);
     t+=dt;
 }
 
 void init(){
-    x_[0]=3;
-    x_[1]=0;
-    y_[0]=-20;
-    y_[1]=5;
     t=0;
+
 }
 
 int main(){
