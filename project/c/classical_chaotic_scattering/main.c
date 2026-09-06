@@ -4,6 +4,8 @@
 
 #define h 1e-5
 #define y0 20
+#define V0 0.5  /* E = V0*V0/2 = 0.125, 需低于势垒顶 e^-2 ~= 0.135, 偏转角才会出现不连续 */
+#define TMAX 1000 /* 近俘获轨道的最大积分时间, 防止死循环 */
 
 double t;
 
@@ -54,9 +56,18 @@ int main(){
     FILE *fp=fopen("b-theta.csv","w");
     for(int i=1;i<=1000;i++){
         double x0=(double)i/1000*2;
-        init(p,x0,0,-y0,2);
-        while(p[2]<=y0) step(p,h);
-        double theta=atan2(p[1],p[3]);
+        init(p,x0,0,-y0,V0);
+        /* 偏转角逐级解卷绕累积; 直接 atan2 终值会折叠进 (-pi,pi], 抹掉整圈缠绕 */
+        double theta=0,phi_prev=atan2(p[1],p[3]);
+        while(fabs(p[2])<=y0&&t<TMAX){
+            step(p,h);
+            double phi=atan2(p[1],p[3]);
+            double d=phi-phi_prev;
+            if(d>M_PI)d-=2*M_PI;
+            if(d<-M_PI)d+=2*M_PI;
+            theta+=d;
+            phi_prev=phi;
+        }
         fprintf(fp,"%lf,%lf\n",x0,theta);
     }
     return 0;
