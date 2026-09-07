@@ -60,3 +60,20 @@ $$
 As your computation should show, there are parameter values for which $d\theta/db$ gets very large, or even discontinuous, and this leads to chaotic cross sections.
 
 #### 13.3.2 Implementation
+
+## 13.4 Projectile Motion with Drag
+
+**Problem** to determine the projectile motion with drag
+
+We include a frictional force $F^{(f)}$ in Newton's second law:
+$$
+\begin{align}
+\mathbf{F}^{(f)} - mg\hat{\mathbf{e}}_y &= m\frac{d^2\mathbf{x}(t)}{dt^2}, \\
+\Rightarrow \quad F_x^{(f)} &= m\frac{d^2x}{dt^2}, \quad F_y^{(f)} - mg = m\frac{d^2y}{dt^2}.
+\end{align}
+$$
+As a model for what is really more complicated, we assume that the frictional force is proportional to some power $n$ of the projectile's speed:
+$$
+\mathbf{F}^{(f)} = -km |v|^n \frac{\mathbf{v}}{|v|}
+$$
+where the $-\frac{\mathbf{v}}{|v|}$ factor ensures that frictional force is always in a direction opposite that of the velocity. Experiments indicate that the power n is noninteger and varies with velocity.
