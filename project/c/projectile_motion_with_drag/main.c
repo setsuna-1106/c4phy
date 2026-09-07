@@ -1,11 +1,5 @@
 /*
  * TODO(按优先级评级):
- *
- * [P0] 物理模型错误: 阻力被按 x/y 分量独立计算, 即 x 向阻力只依赖 |vx|,
- *      y 向只依赖 |vy|; 正确模型应基于总速率 |v| = sqrt(vx^2+vy^2) 且沿
- *      速度反方向: ax = -k*|v|^(n-1)*vx, ay = -k*|v|^(n-1)*vy - g.
- *      当前轨迹形状(射程/顶点/落角)均不正确, 见下方 deriv().
- *
  * [P0] 缺少落地判定: 固定积分 1e5 步至 t=1000s, 弹体 t≈1.83s 已落地,
  *      输出 CSV 中 99.8% 为穿地坠落的无效数据; 应检测 y<0 终止, 并对
  *      最后一步线性插值求精确落点, 输出射程与飞行时间.
@@ -22,8 +16,6 @@
  * [P2] deriv() 的参数 t 未使用, 触发 -Wunused-parameter 警告;
  *      自治系统可 (void)t 消除.
  *
- * [P2] 循环上界 i<1e5 为 int 与 double 比较, 应写 100000 或 size_t.
- *
  * [P3] n=0.5 时 v^0.5 在 v→0 处导数发散, 顶点过零附近 RK4 局部精度下降;
  *      若需高精度应局部缩小步长(或改用 n=1/2 的常规阻力指数).
  */
@@ -38,7 +30,8 @@
 #define g 9.8
 #define n 0.5
 
-#define h 1e-2
+#define h 1e-3
+#define counter 10000
 
 double t;
 
@@ -62,10 +55,11 @@ void rk4_4d(deriv4 f, double y[4], double t, double dt) {
 
 /* TODO[P0][P1]: 阻力应基于总速率 |v| 而非分量, 且不应乘 m, 详见文件头 */
 void deriv(double t,double *y,double *dydt){
+    double v=sqrt(y[1]*y[1]+y[3]*y[3]);
     dydt[0]=y[1];
-    dydt[1]=-k*m*pow(fabs(y[1]),n)*SIGN(y[1]);
+    dydt[1]=-k*pow(v,n)*y[1]/v/m;
     dydt[2]=y[3];
-    dydt[3]=-k*m*pow(fabs(y[3]),n)*SIGN(y[3])-m*g;
+    dydt[3]=-k*pow(v,n)*y[3]/v/m-g;
 }
 
 void step(double *y,double dt){
@@ -85,9 +79,9 @@ int main(){
     FILE *fp=fopen("x-y.csv","w");
     double p[4];
     init(p,0,5,0,10);
-    /* TODO[P0]: 应检测 p[2]<0 终止并插值落点, 而非固定 1e5 步 */
-    for(int i=0;i<1e5;i++){
+    for(int i=0;i<counter;i++){
         step(p,h);
+        if(p[2]<0) break;
         fprintf(fp,"%lf,%lf\n",p[0],p[2]);
     }
     return 0;
