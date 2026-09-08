@@ -38,9 +38,13 @@ void step(){
     count++;
 }
 
-int main (int argc, char **argv){
+int main (void){
     init();
     FILE *fp=fopen("number_of_particles.csv","w");
+    if(fp==NULL){
+        perror("fopen number_of_particles.csv");
+        return 1;
+    }
     for(int i=0;i<T;i++){
         step();
         fprintf(fp,"%ld,%ld\n",count,number);
