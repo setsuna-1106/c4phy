@@ -6,8 +6,8 @@ import numpy as np
 c_dir = Path(__file__).resolve().parents[2] / "c" / "simple_harmonic_oscillation"
 path1 = c_dir / "x-v1.csv"
 path2 = c_dir / "x-v2.csv"
-data1 = np.loadtxt(path1, delimiter=",")
-data2 = np.loadtxt(path2, delimiter=",")
+data1 = np.loadtxt(path1, delimiter=",", skiprows=1)
+data2 = np.loadtxt(path2, delimiter=",", skiprows=1)
 
 x = np.arange(1, 1001)
 x1 = data1.T[0]
