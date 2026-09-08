@@ -45,7 +45,7 @@ One might expect that the classical scttering of a projectile from a passive tar
 
 **Problem** Determine if multiple internal scatterings may lead to such a chaotic situation.
 
-#### 13.3.1 Model and Theory
+### 13.3.1 Model and Theory
 
 Our model for scattering from the bumpers in pinball machines is a point particle sscattering from the stationary 2D potential
 $$
@@ -59,7 +59,7 @@ $$
 $$
 As your computation should show, there are parameter values for which $d\theta/db$ gets very large, or even discontinuous, and this leads to chaotic cross sections.
 
-#### 13.3.2 Implementation
+### 13.3.2 Implementation
 
 ## 13.4 Projectile Motion with Drag
 
@@ -77,3 +77,8 @@ $$
 \mathbf{F}^{(f)} = -km |v|^n \frac{\mathbf{v}}{|v|}
 $$
 where the $-\frac{\mathbf{v}}{|v|}$ factor ensures that frictional force is always in a direction opposite that of the velocity. Experiments indicate that the power n is noninteger and varies with velocity.
+
+## 13.5 2- and 3-Body Planetary Orbits
+
+### 13.5.1 Plantes via Two of Newton's Laws
+
