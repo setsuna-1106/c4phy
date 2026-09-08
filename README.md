@@ -47,7 +47,7 @@ c4phy/
 │
 ├── project/
 │   ├── c/                              # C 语言项目
-│   │   ├── common/                     # 跨项目共享源码（RK4 1D/2D 求解器）
+│   │   ├── common/                     # 跨项目共享源码（RK4 1D/2D/4D 求解器）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动
 │   │   ├── damped_oscillation/           # 阻尼振动
 │   │   ├── double_pendulum/              # 双摆（Raylib 实时可视化）
@@ -56,6 +56,8 @@ c4phy/
 │   │   ├── ideal_gas/                    # 理想气体（Raylib 可视化）
 │   │   ├── reflection_of_light_in_a_sphere/  # 球内光线反射（Raylib 可视化）
 │   │   ├── perturbed_damped_pendulum/    # 受扰阻尼摆（RK4 + Raylib + CSV 输出）
+│   │   ├── classical_chaotic_scattering/ # 经典混沌散射（RK4，b-θ 散射曲线 CSV 输出）
+│   │   ├── projectile_motion_with_drag/   # 有阻力抛体运动（RK4，x-y 轨迹 CSV 输出）
 │   │   └── nucleon_in_box/               # 盒中核子（有限深势阱束缚态本征值搜索，开发中，暂未接入顶层 Makefile）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
@@ -66,7 +68,8 @@ c4phy/
 │       ├── random_walk/                  # 随机行走可视化
 │       ├── spontaneous_decay/            # 自发衰变可视化
 │       ├── ideal_gas/                    # 理想气体可视化
-│       └── perturbed_damped_pendulum/    # 受扰阻尼摆可视化
+│       ├── perturbed_damped_pendulum/    # 受扰阻尼摆可视化
+│       └── classical_chaotic_scattering/ # 经典混沌散射 b-θ 曲线可视化
 │
 ├── docs/
 │   └── naming_conventions.md            # 项目结构与命名规则
@@ -163,13 +166,15 @@ gcc ex1.c -o ex1 -lm && ./ex1
 | 量子计算（Dirac 记号） | ✅ | — | — |
 | ODE 应用（束缚态本征值：盒中核子） | ✅ | ✅ | — |
 | 简谐振动 | — | ✅ | ✅ |
-|阻尼振动|-|✅|✅|
+| 阻尼振动 | — | ✅ | ✅ |
 | 双摆 | ✅ | ✅ | ✅ |
 | 随机行走（含自回避行走） | ✅ | ✅ | ✅ |
 | 自发衰变 | — | ✅ | ✅ |
 | 理想气体 | — | ✅ | ✅ |
 | 球内光线反射 | — | ✅ | ✅ |
 | 受扰阻尼摆 | — | ✅ | ✅ |
+| 经典混沌散射 | — | ✅ | ✅ |
+| 有阻力抛体运动 | — | ✅ | — |
 
 ---
 

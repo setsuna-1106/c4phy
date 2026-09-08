@@ -39,9 +39,10 @@ c4phy/
 |------|------|------|
 | 语言目录 | 小写，固定为 `c` / `cpp` / `python` | `project/cpp/` |
 | 项目目录 | **snake_case**：全小写英文 + 下划线，**单数**，不用空格/连字符/大写 | `double_pendulum/`、`ideal_gas/` |
-| 项目入口文件 | 统一 `main.c` / `main.cpp` / `main.py` | `main.py` |
+| 项目入口文件 | 多文件项目统一 `main.c` / `main.cpp` / `main.py`；单文件 C 项目可用与项目同名的 `.c` 作为唯一源文件（即入口） | `main.py`、`double_pendulum.c` |
 | 单文件项目的源文件 | 与项目同名的 snake_case | `double_pendulum.c` |
 | C/C++ 功能源文件 | snake_case，与同名头文件配对 | `bisection.c` + `bisection.h` |
+| C 共享源码目录 | `project/c/common/`，模块 snake_case 与头文件配对，不单独成项目、无自己的 Makefile | `rk4_2d.c` + `rk4_2d.h` |
 | C++ 多文件项目布局 | `include/` `src/` `build/`；头文件按类名 PascalCase | `src/Physics/DoublePendulum.cpp` + `include/Physics/DoublePendulum.h` |
 | 项目文档 | 统一 `document.md`，放在项目根 | `project/c/ideal_gas/document.md` |
 | 笔记章节目录 | **Title Case（可含空格）**，与教材章节名一致，便于阅读 | `Monte Carlo Simulations/` |
@@ -59,6 +60,9 @@ c4phy/
 
 **同一物理主题在不同语言下的项目目录名必须一致**，
 例如三种语言的简谐振动项目都叫 `simple_harmonic_oscillation/`。
+
+**入口文件的唯一历史例外**：`project/python/random_walk/random_walk.py`
+（历史沿用，重命名无收益，见其 Makefile 注释）。
 
 ---
 
@@ -81,6 +85,10 @@ c4phy/
 - **每个项目目录内都有自己的 Makefile**：C / C++ 项目负责编译（目标 `all` /
   `run` / `clean`）；Python 项目提供语法检查（`all`）、运行（`run`）与
   缓存清理（`clean`）。
+- `project/c/common/` 里的共享源码（RK4 求解器等）不单独编译；使用它的项目
+  在自己的 Makefile 里通过 `vpath %.c ../common` + `-I../common` 把源文件
+  一并编译链接（参考 `nucleon_in_box`、`classical_chaotic_scattering`、
+  `projectile_motion_with_drag`）。
 - 顶层 `Makefile` 递归调用各子项目 Makefile，目标命名 `<语言>-<项目名>`
   （项目名中的下划线写作连字符，如 `make run-cpp-double-pendulum`）。
   新增项目 = 建目录 + 项目 Makefile + 在根 `Makefile` 对应语言列表注册一行。
