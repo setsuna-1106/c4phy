@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "rk4.h"
+#include "../common/rk4_2d.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -64,7 +64,7 @@ void init() {
 void step(double t1) {
     double y[2] = {theta, omega};
 
-    rk4(deriv, y, t, t1);
+    rk4_2d(deriv, y, t, t1);
     omega = y[1];
     theta = fmod(y[0] + M_PI, 2.0 * M_PI);
     if (theta < 0) theta += 2.0 * M_PI;
@@ -165,6 +165,10 @@ int main() {
     init();
     FILE *fp = fopen("theta-omega.csv", "w");
     FILE *fp2 = fopen("theta-t.csv", "w");
+    if (fp == NULL || fp2 == NULL) {
+        perror("fopen theta-omega.csv / theta-t.csv");
+        return 1;
+    }
     fprintf(fp, "theta,omega\n");
     fprintf(fp2, "t,theta\n");
 

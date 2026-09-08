@@ -108,7 +108,7 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 | 文件 | 职责 |
 |------|------|
 | `main.c` | 物理参数、右端函数、随机初始化、主循环、CSV 输出与 Raylib 实时可视化 |
-| `rk4.c` / `rk4.h` | 通用的二维一阶 ODE 组四阶 Runge-Kutta 步进模块（与具体物理无关，可复用） |
+| `../common/rk4_2d.c` / `rk4_2d.h` | 通用的二维一阶 ODE 组四阶 Runge-Kutta 步进模块（跨项目共享，经 Makefile 的 `vpath ../common` 编译链接） |
 
 ### 核心函数
 
@@ -116,8 +116,8 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 |------|------|------|
 | `deriv()` | `void deriv(double t, double y[2], double dydt[2])` | 受迫阻尼摆的右端函数 |
 | `init()` | `void init(void)` | 随机生成初始 $\theta \in [-\pi,\pi)$、$\omega \in [-5,5)$，并清空可视化轨迹 |
-| `step()` | `void step(double t1)` | 调用 `rk4()` 推进一步，并把 $\theta$ 卷绕到 $(-\pi, \pi]$ |
-| `rk4()` | `void rk4(deriv2 f, double y[2], double t, double dt)` | 经典 RK4 单步，就地更新 `y` |
+| `step()` | `void step(double t1)` | 调用 `rk4_2d()` 推进一步，并把 $\theta$ 卷绕到 $(-\pi, \pi]$ |
+| `rk4_2d()` | `void rk4_2d(deriv2 f, double y[2], double t, double dt)` | 经典 RK4 单步（来自 `common/`），就地更新 `y` |
 | `push_trail()` | `void push_trail(void)` | 把当前 $(\theta,\omega)$ 追加到相图轨迹缓冲（超容量丢弃最老点） |
 | `record_trace()` | `void record_trace(void)` | 把当前 $(t,\theta)$ 追加到时间序列缓冲（超容量丢弃最老样本） |
 | `phase_pos()` / `trace_pos()` | `Vector2 phase_pos(double th, double om)` 等 | 物理坐标到相图 / 时间序列面板像素的映射 |
@@ -160,7 +160,7 @@ y_next = y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
 ```bash
 # 或直接 make（推荐）
-gcc -O2 main.c rk4.c -o main $(pkg-config --cflags --libs raylib)
+gcc -O2 -I../common main.c ../common/rk4_2d.c -o main $(pkg-config --cflags --libs raylib)
 ```
 
 ### 运行
