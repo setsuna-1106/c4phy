@@ -8,7 +8,7 @@ COMMON_DIR := ../common
 vpath %.c $(COMMON_DIR)
 vpath %.h $(COMMON_DIR)
 
-SRCS   := main.c rk4_2d.c
+SRCS   := main.c rk4_4d.c
 OBJS   := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS   := $(OBJS:.o=.d)
 TARGET := $(BUILD_DIR)/classical_chaotic_scattering
