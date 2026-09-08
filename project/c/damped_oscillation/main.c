@@ -1,4 +1,3 @@
-#include <_stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,6 +30,10 @@ void step_Euler_Cromer(double t1) {
 int main() {
   init();
   FILE *fp = fopen("x-t.csv", "w");
+  if (fp == NULL) {
+    perror("fopen x-t.csv");
+    return 1;
+  }
   for (int i = 0; i < 2000; i++) {
     step_Euler_Cromer(dt);
     fprintf(fp, "%lf,%lf\n", t, x);
