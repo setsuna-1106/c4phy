@@ -6,11 +6,11 @@ import numpy as np
 path = Path(__file__).resolve().parents[2] / "c" / "classical_chaotic_scattering" / "b-theta.csv"
 data = np.loadtxt(path, delimiter=",")
 
-t = data.T[0]
-x = data.T[1]
+b = data.T[0]
+theta = data.T[1]
 
 fig, ax = plt.subplots(figsize=(9, 4))
-ax.scatter(t, x, s=1, color="black", zorder=1)
+ax.scatter(b, theta, s=1, color="black", zorder=1)
 fig.suptitle("b-theta")
 
 plt.show()
