@@ -17,6 +17,10 @@ int main(void) {
 
   /* CSV 输出 */
   FILE *csv = fopen("magnetization.csv", "w");
+  if (csv == NULL) {
+    perror("fopen magnetization.csv");
+    return 1;
+  }
   fprintf(csv, "t,m_bisect,iter_bisect,m_newton,iter_newton,newton_failed\n");
 
   for (int i = 0; i <= 30; i++) {

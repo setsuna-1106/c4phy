@@ -7,6 +7,10 @@ int main() {
   double exact = cos(0) - cos(1);
 
   FILE *fp = fopen("error.csv", "w");
+  if (fp == NULL) {
+    perror("fopen error.csv");
+    return 1;
+  }
   // for (int j = 1e3; j <= 1e4; j++) {
   //   fprintf(fp, "%d,%.16lf,%.16lf\n", 2 * j,
   //           (ti(sin, i, f, 2 * j) - exact) / exact,

@@ -6,7 +6,7 @@
 
 int main (){
     srand(time(NULL));
-    double sum;
+    double sum = 0;
     for (int i=0;i<N;i++){
         sum += (double)rand()*rand()/N/RAND_MAX/RAND_MAX;
     }

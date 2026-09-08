@@ -6,6 +6,10 @@
 
 int main() {
   FILE *fp = fopen("error.csv", "w");
+  if (fp == NULL) {
+    perror("fopen error.csv");
+    return 1;
+  }
   double x = 1;
   double exact = cos(x);
   for (int i = 1; i <= 10000; i++) {
