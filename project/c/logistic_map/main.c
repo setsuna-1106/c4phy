@@ -19,22 +19,28 @@
 
 #include <stdio.h>
 
-#define mu 3.7
+#define mu 3
 #define x0 0.3
+#define N 3
 
 int main(){
-    double x;
+    double x[N];
     FILE *fp=fopen("x.csv","w");
     if(fp==NULL){
         printf("file dont open");
         return 1;
     }
-
-    x=x0;
+    for(int i=0;i<N;i++){
+        x[i]=x0+1e-2*i;
+    }
 
     for(int i=0;i<1000;i++){
-        x=mu*x*(1-x);
-        fprintf(fp,"%d,%lf\n",i,x);
+        fprintf(fp,"%d",i);
+        for(int j=0;j<N;j++){
+            x[j]=mu*x[j]*(1-x[j]);
+            fprintf(fp,",%lf",x[j]);
+        }
+        fprintf(fp,"\n");
     }
     
     fclose(fp);
