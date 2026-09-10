@@ -58,7 +58,8 @@ c4phy/
 │   │   ├── perturbed_damped_pendulum/    # 受扰阻尼摆（RK4 + Raylib + CSV 输出）
 │   │   ├── classical_chaotic_scattering/ # 经典混沌散射（RK4，b-θ 散射曲线 CSV 输出）
 │   │   ├── projectile_motion_with_drag/   # 有阻力抛体运动（RK4，x-y 轨迹 CSV 输出）
-│   │   └── nucleon_in_box/               # 盒中核子（有限深势阱束缚态本征值搜索，开发中，暂未接入顶层 Makefile）
+│   │   ├── nucleon_in_box/               # 盒中核子（有限深势阱束缚态本征值搜索）
+│   │   └── logistic_map/                 # Logistic 映射（多条初值轨道，CSV 输出）
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
 │   │   └── double_pendulum/              # 双摆（RK4 + 轨迹拖尾 + 能量监测）
@@ -69,7 +70,8 @@ c4phy/
 │       ├── spontaneous_decay/            # 自发衰变可视化
 │       ├── ideal_gas/                    # 理想气体可视化
 │       ├── perturbed_damped_pendulum/    # 受扰阻尼摆可视化
-│       └── classical_chaotic_scattering/ # 经典混沌散射 b-θ 曲线可视化
+│       ├── classical_chaotic_scattering/ # 经典混沌散射 b-θ 曲线可视化
+│       └── logistic_map/                 # Logistic 映射可视化
 │
 ├── docs/
 │   └── naming_conventions.md            # 项目结构与命名规则
@@ -175,6 +177,7 @@ gcc ex1.c -o ex1 -lm && ./ex1
 | 受扰阻尼摆 | — | ✅ | ✅ |
 | 经典混沌散射 | — | ✅ | ✅ |
 | 有阻力抛体运动 | — | ✅ | — |
+| Logistic 映射（初值敏感性演示，分岔图待补） | — | ✅ | ✅ |
 
 ---
 
