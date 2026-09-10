@@ -8,13 +8,14 @@
 # 用法：make / make cpp / make run-cpp-double-pendulum / make clean / make help
 
 C_PROJECTS      := classical_chaotic_scattering damped_oscillation double_pendulum \
-                   ideal_gas perturbed_damped_pendulum projectile_motion_with_drag \
+                   ideal_gas logistic_map nucleon_in_box \
+                   perturbed_damped_pendulum projectile_motion_with_drag \
                    random_walk reflection_of_light_in_a_sphere \
                    simple_harmonic_oscillation spontaneous_decay
 CPP_PROJECTS    := double_pendulum simple_harmonic_oscillation
 PYTHON_PROJECTS := classical_chaotic_scattering damped_oscillation ideal_gas \
-                   perturbed_damped_pendulum random_walk simple_harmonic_oscillation \
-                   spontaneous_decay
+                   logistic_map perturbed_damped_pendulum random_walk \
+                   simple_harmonic_oscillation spontaneous_decay
 
 .DEFAULT_GOAL := all
 
