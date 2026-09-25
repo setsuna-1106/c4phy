@@ -21,7 +21,7 @@
 本仓库包含两个方面：
 
 1. **学习笔记** — 计算物理核心主题的整理笔记，配合 C 代码示例与 Python 可视化
-2. **项目实践** — 独立的小型计算物理项目，C / C++ 负责数值计算，Python / Raylib / SDL2 负责可视化
+2. **项目实践** — 独立的小型计算物理项目；现有项目主要由 C / C++ 负责数值计算，Python / Raylib / SDL2 负责可视化，也支持用 Python 独立完成数值实验
 
 目前还在不断完善中。
 
@@ -63,7 +63,7 @@ c4phy/
 │   ├── cpp/                             # C++ 项目（SDL2 可视化）
 │   │   ├── simple_harmonic_oscillation/  # 简谐振动（相空间可视化）
 │   │   └── double_pendulum/              # 双摆（RK4 + 轨迹拖尾 + 能量监测）
-│   └── python/                          # Python 项目
+│   └── python/                          # Python 数值实验与可视化项目
 │       ├── simple_harmonic_oscillation/  # 简谐振动可视化
 │       ├── damped_oscillation/           # 阻尼振动可视化
 │       ├── random_walk/                  # 随机行走可视化
@@ -74,11 +74,13 @@ c4phy/
 │       └── logistic_map/                 # Logistic 映射可视化
 │
 ├── docs/
-│   └── naming_conventions.md            # 项目结构与命名规则
+│   ├── naming_conventions.md            # 项目结构与命名规则
+│   └── python_computational_physics.md  # Python 计算物理项目规范
 └── README.md
 ```
 
 > 目录与文件的详细命名规则见 [docs/naming_conventions.md](docs/naming_conventions.md)。
+> 新建 Python 数值实验或后处理项目时，参见 [Python 计算物理项目规范](docs/python_computational_physics.md)。
 > 每个项目目录内都有自己的 Makefile，顶层 `Makefile` 统一调度（见「编译 & 运行」）。
 
 ---
@@ -137,7 +139,7 @@ gcc ex1.c -o ex1 -lm && ./ex1
 
 ## 工作流
 
-本仓库遵循 **C / C++ 做数值核心 + Python 做可视化** 的工作流。详细策略参考：
+现有项目主要遵循 **C / C++ 做数值核心 + Python 做可视化** 的工作流；新项目也可以用 Python 独立完成数值计算与分析。详细策略参考：
 
 [📖 C + Python 计算物理工作流手册](notes/C_Python_Workflow.md)
 

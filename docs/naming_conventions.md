@@ -23,7 +23,7 @@ c4phy/
 ├── project/    # 项目实践（按实现语言组织）
 │   ├── c/      #   C 项目（Raylib 可视化）
 │   ├── cpp/    #   C++ 项目（SDL2 可视化）
-│   └── python/ #   Python 项目（matplotlib 可视化）
+│   └── python/ #   Python 项目（数值实验、数据分析与可视化）
 ├── docs/       # 仓库级文档（本文件所在处）
 └── README.md
 ```
